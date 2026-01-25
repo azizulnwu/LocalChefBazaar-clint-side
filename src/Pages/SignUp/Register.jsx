@@ -4,20 +4,20 @@ import { useForm } from "react-hook-form";
 
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import useAxios from "../../Hook/useAxiosInstant";
+
 import useAuth from "../../Hook/useAuth";
 import ImageUpload from "../../Utility/Image";
 import BrandLogo from "../../Component/Shared/Logo/BrandLogo";
 import LoadingSpinner from "../../Component/Shared/LoadingSpinner";
-
-
-
-
-
-
+import { useState } from "react";
+import { LuEye } from "react-icons/lu";
+import { LuEyeOff } from "react-icons/lu";
+import useAxios from "../../Hook/useAxiosInstant";
 const Register = () => {
   const navigate = useNavigate();
   const axiosInstance = useAxios();
+  const [passwordSeen, setPasswordSeen] = useState(true);
+  const [confirmPasswordSeen, setConfirmPasswordSeen] = useState(true);
   const {
     user,
     createUser,
@@ -27,7 +27,7 @@ const Register = () => {
     setLoading,
   } = useAuth();
   // console.log(user);
-  const { displayName, email, photoUrl } = user || {};
+  // const { displayName, email, photoUrl } = user || {};
 
   // if(loading)return <Loading></Loading>
 
@@ -38,24 +38,26 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const { name, image, email, password } = data;
+    const { name, image, email, password, address } = data;
     const imageFile = image[0];
 
     try {
       createUser(email, password).then(() => {
-        ImageUpload(imageFile).then((data) => {
-          // console.log(data);
-          // const userInfo = {
-          //   displayName: name,
-          //   email: email.toLowerCase(),
-          //   photoUrl: data,
-          // };
+        ImageUpload(imageFile).then(async (data) => {
+          console.log(data);
+          const userInfo = {
+            displayName: name,
+            email: email.toLowerCase(),
+            photoUrl: data,
+            address,
+            userStatus: "Active",
+          };
 
-          // axiosInstance.post("/users", userInfo).then((res) => {
-          //   if (res.data.insertedId) {
-          //     console.log({ message: "user is created" });
-          //   }
-          // });
+          await axiosInstance.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log({ message: "user is created" });
+            }
+          });
 
           updateUserProfile(name, data?.data?.display_url);
         });
@@ -82,12 +84,15 @@ const Register = () => {
 
       const result = await signInWithGoogle();
       const user = result.user;
+      console.log(user);
 
       const userInfo = {
         displayName: user.displayName,
         email: user.email.toLowerCase(),
         photoUrl: user.photoURL,
         provider: "google",
+        userStatus: "Active",
+        address: "Google",
       };
 
       const res = await axiosInstance.post("/users", userInfo);
@@ -105,12 +110,11 @@ const Register = () => {
 
       navigate("/");
     } catch (error) {
-      // console.error(error);
+      console.error(error);
       setLoading(false);
     }
   };
 
- 
   return (
     <div className="max-w-[80%] mx-auto">
       <Link to="/">
@@ -122,7 +126,7 @@ const Register = () => {
           <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">
             Register Page
           </h1>
-          
+
           <div className="card-body">
             <form onSubmit={handleSubmit(onSubmit)}>
               <fieldset className="fieldset">
@@ -151,6 +155,22 @@ const Register = () => {
                   <p className="text-red-500 text-sm">{errors.image.message}</p>
                 )}
 
+                {/* Address field */}
+                <label className="label">Address</label>
+                <input
+                  type="text"
+                  className="input w-full"
+                  placeholder="Address"
+                  {...register("address", {
+                    required: true,
+                  })}
+                />
+                {errors.address && (
+                  <p className="text-red-500 text-sm">
+                    {errors.address.message}
+                  </p>
+                )}
+
                 {/* Email field */}
                 <label className="label">Email</label>
                 <input
@@ -171,25 +191,73 @@ const Register = () => {
 
                 {/* Password field */}
                 <label className="label">Password</label>
-                <input
-                  type="password"
-                  className="input w-full"
-                  placeholder="Password"
-                  {...register("password", {
-                    required: true,
+                <div>
+                  <input
+                    type={passwordSeen ? "password" : "text"}
+                    className="input w-full relative"
+                    placeholder="Password"
+                    {...register("password", {
+                      required: true,
 
-                    pattern: {
-                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$/,
-                      message:
-                        "Password must be at least 6 characters and include uppercase, lowercase, and special character",
-                    },
-                  })}
-                />
+                      pattern: {
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$/,
+                        message:
+                          "Password must be at least 6 characters and include uppercase, lowercase, and special character",
+                      },
+                    })}
+                  />
+                  <span
+                    onClick={() => setPasswordSeen(!passwordSeen)}
+                    className="absolute  -ml-7 mt-2.5"
+                  >
+                    {passwordSeen ? (
+                      <LuEye className="w-5 h-5" />
+                    ) : (
+                      <LuEyeOff className="w-5 h-5" />
+                    )}
+                  </span>
+                </div>
                 {errors.password && (
                   <p className="text-red-500 text-sm">
                     {errors.password.message}
                   </p>
                 )}
+
+                {/*Confirm Password field */}
+                {/* <label className="label">Confirm Password</label>
+                <div>
+                  <input
+                    type={confirmPasswordSeen ? "password" : "text"}
+                    className="input w-full"
+                    placeholder="Confirm Password"
+                    {...register("confirmPassword", {
+                      required: true,
+
+                      pattern: {
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$/,
+                        message:
+                          "Password must be at least 6 characters and include uppercase, lowercase, and special character",
+                      },
+                    })}
+                  />
+                  <span
+                    onClick={() => setConfirmPasswordSeen(!confirmPasswordSeen)}
+                    className="absolute  -ml-7 mt-2.5"
+                  >
+                    {confirmPasswordSeen ? (
+                      <LuEye className="w-5 h-5" />
+                    ) : (
+                      <LuEyeOff className="w-5 h-5" />
+                    )}
+                  </span>
+                </div>
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm">
+                    {errors.confirmPassword.message}
+                  </p>
+                )} */}
 
                 <button className="btn btn-neutral mt-4 p-2">
                   {loading ? <LoadingSpinner></LoadingSpinner> : "SUBMIT"}

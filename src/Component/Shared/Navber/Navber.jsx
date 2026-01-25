@@ -5,8 +5,9 @@ import { Link } from "react-router";
 
 import { toast, ToastContainer } from "react-toastify";
 import useAuth from "../../../Hook/useAuth";
-import useAxios from "../../../Hook/useAxiosInstant";
+
 import Logo from "../Logo/Logo";
+import useAxios from "../../../Hook/useAxiosInstant";
 
 
 const Navbar = () => {
@@ -21,9 +22,10 @@ const Navbar = () => {
     if (!user?.email) return;
     axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
       setCurrentUser(res.data);
+      console.log(res.data)
     });
   }, [user?.email, axiosInstance]);
-  // console.log(currentUser);
+  console.log(currentUser);
   return (
     <div className="max-w-[85%] mx-auto p-6">
       <div className="navbar bg-slate-200 p-3 rounded-box">
@@ -62,7 +64,7 @@ const Navbar = () => {
               </li> */}
               {user  && (
                 <li>
-                  <Link to="/">Dashboard</Link>
+                  <Link to="/dashboard">Dashboard</Link>
                 </li>
               )}
 
@@ -94,7 +96,7 @@ const Navbar = () => {
 
             {user&& (
               <li>
-                <Link to="/">Dashboard</Link>
+                <Link to="/dashboard">Dashboard</Link>
               </li>
             )}
 
@@ -130,7 +132,7 @@ const Navbar = () => {
                 className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
               >
                 <li>
-                  <Link to="/myProfile">Profile</Link>
+                  <Link to="/dashboard/myProfile">Profile</Link>
                 </li>
                 <li>
                   <Link to="/myActivities">My Activities</Link>

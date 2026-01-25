@@ -1,0 +1,72 @@
+import React from "react";
+import useAxios from "../../Hook/useAxiosInstant";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../Shared/LoadingSpinner";
+import { Link, NavLink } from "react-router";
+const ALlMeals = () => {
+  const axiosInstance = useAxios();
+  const { data: AllMeals = [], isLoading } = useQuery({
+    queryKey: ["AllMeals"],
+    queryFn: async () => {
+      const result = await axiosInstance.get("/allMeals");
+      // console.log(result.data)
+      return result.data;
+    },
+  });
+
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+
+  return (
+    <div className="w-full md:max-w-[90%] mx-auto">
+      <h1 className="text-center font-bold text-2xl bg-sky-200 p-4 rounded-tr-lg rounded-tl-lg">
+        All Cards Section
+      </h1>
+      <div className="bg-red-300 w-full h-1"></div>
+      <div className=" grid grid-cols-1 md:grid-cols-3 gap-2 bg-slate-300 p-4 mb-4 rounded-br-lg rounded-bl-lg">
+        {AllMeals.map((data) => {
+          return (
+            <div className="card bg-base-100  shadow-sm w-full">
+              <figure className="flex-1 overflow-hidden">
+                <img
+                  src={data.foodImage}
+                  alt="foodImage"
+                  className="w-200 h-100 object-cover "
+                />
+              </figure>
+              <div className="mt-4  w-full">
+                <div className=" flex justify-center">
+                  <h2 className="card-title mb-2">
+                    {data.foodName}
+                    <div className="badge badge-secondary text-center">NEW</div>
+                  </h2>
+                </div>
+
+                <div className="flex gap-4">
+                  <p className="space-y-2">
+                    <span className="font-bold">ChefName</span>: {data.chefName}
+                  </p>
+
+                  <p className="space-y-2">
+                    <span className="font-bold">ChefId</span>: {data.chefId}
+                  </p>
+                </div>
+
+                <div className="card-actions flex  my-4 w-full">
+                  <p className="badge badge-outline font-bold">
+                    Food Price : {data.price} Tk
+                  </p>
+                  <p className="badge badge-outline font-bold">
+                    Food Rating: {data.rating}
+                  </p>
+                </div>
+                <Link to={`/mealDetails/${data._id}`} className="btn bg-orange-300 hover:bg-orange-400">See Details</Link>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default ALlMeals;

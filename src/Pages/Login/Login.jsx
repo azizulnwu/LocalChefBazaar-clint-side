@@ -8,11 +8,12 @@ import { toast } from "react-toastify";
 import useAuth from "../../Hook/useAuth";
 import BrandLogo from "../../Component/Shared/Logo/BrandLogo";
 import LoadingSpinner from "../../Component/Shared/LoadingSpinner";
-
+import useAxios from "../../Hook/useAxiosInstant";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosInstance =useAxios()
   // console.log(location);
   const { signIn, signInWithGoogle, loading, setLoading } = useAuth();
 
@@ -36,7 +37,7 @@ const Login = () => {
           timer: 1500,
         });
         setLoading(false);
-        navigate(location.state || "/");
+        navigate("/");
       })
       .catch((err) => {
         // console.log(err);
@@ -44,19 +45,43 @@ const Login = () => {
       });
   };
 
-  const SignInWithGoogle = () => {
-    signInWithGoogle().then(() => {
+ const SignInWithGoogle = async () => {
+    try {
+      setLoading(true);
+
+      const result = await signInWithGoogle();
+      const user = result.user;
+      console.log(user);
+
+      const userInfo = {
+        displayName: user.displayName,
+        email: user.email.toLowerCase(),
+        photoUrl: user.photoURL,
+        provider: "google",
+        userStatus: "Active",
+        address: "Google",
+      };
+
+      const res = await axiosInstance.post("/users", userInfo);
+      if (res.data.insertedId) {
+        console.log({ message: "user is created" });
+      }
+
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "Login Successful",
+        title: "Registration Successful",
         showConfirmButton: false,
         timer: 1500,
       });
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
       setLoading(false);
-      navigate(location.state || "/");
-    });
+    }
   };
+
 
   return (
     <div className="max-w-[80%] mx-auto">
