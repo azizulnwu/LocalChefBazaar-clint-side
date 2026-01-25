@@ -1,29 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAxios from "../../Hook/useAxiosInstant";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { Link, NavLink } from "react-router";
+
 const ALlMeals = () => {
   const axiosInstance = useAxios();
+  const [allMealsLoad, setAllMealsLoad] = useState() || [];
+
   const { data: AllMeals = [], isLoading } = useQuery({
     queryKey: ["AllMeals"],
     queryFn: async () => {
       const result = await axiosInstance.get("/allMeals");
       // console.log(result.data)
-      return result.data;
+      return setAllMealsLoad(result.data);
     },
   });
 
-  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+  const descendingOrder = async () => {
+    await axiosInstance.get("/allMeals/descending").then((res) => {
+      setAllMealsLoad(res.data);
+    });
+  };
+  const ascendingOrder = async () => {
+    await axiosInstance.get("/allMeals/ascending").then((res) => {
+      setAllMealsLoad(res.data);
+    });
+  };
 
+
+
+
+
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <div className="w-full md:max-w-[90%] mx-auto">
-      <h1 className="text-center font-bold text-2xl bg-sky-200 p-4 rounded-tr-lg rounded-tl-lg">
-        All Cards Section
-      </h1>
+      <div className="text-center font-bold text-2xl bg-sky-200 p-4 rounded-tr-lg rounded-tl-lg flex justify-between p-4">
+        <h1>All Meals Section</h1>
+        {/* change popover-1 and --anchor-1 names. Use unique names for each dropdown */}
+        {/* For TSX uncomment the commented types below */}
+        <button
+          className="btn font-bold"
+          popoverTarget="popover-1"
+          style={{ anchorName: "--anchor-1" } /* as React.CSSProperties */}
+        >
+          Sorted-Meal by price
+        </button>
+
+        <ul
+          className="dropdown menu w-52 rounded-box bg-base-100 shadow-sm"
+          popover="auto"
+          id="popover-1"
+          style={{ positionAnchor: "--anchor-1" } /* as React.CSSProperties */}
+        >
+          <li>
+            <button onClick={descendingOrder}>Descending Order</button>
+          </li>
+          <li>
+            <button onClick={ascendingOrder}>Ascending Order</button>
+          </li>
+        </ul>
+      </div>
       <div className="bg-red-300 w-full h-1"></div>
       <div className=" grid grid-cols-1 md:grid-cols-3 gap-2 bg-slate-300 p-4 mb-4 rounded-br-lg rounded-bl-lg">
-        {AllMeals.map((data) => {
+        {allMealsLoad.map((data) => {
           return (
             <div className="card bg-base-100  shadow-sm w-full">
               <figure className="flex-1 overflow-hidden">
@@ -59,7 +99,12 @@ const ALlMeals = () => {
                     Food Rating: {data.rating}
                   </p>
                 </div>
-                <Link to={`/mealDetails/${data._id}`} className="btn bg-orange-300 hover:bg-orange-400">See Details</Link>
+                <Link
+                  to={`/mealDetails/${data._id}`}
+                  className="btn bg-orange-300 hover:bg-orange-400"
+                >
+                  See Details
+                </Link>
               </div>
             </div>
           );
