@@ -5,8 +5,14 @@ import { FaCodePullRequest } from "react-icons/fa6";
 import useAuth from "../Hook/useAuth";
 import useAxios from "../Hook/useAxiosInstant";
 import { GiHotMeal } from "react-icons/gi";
+import { GrDocumentUpdate } from "react-icons/gr";
+import { PiBowlFoodBold } from "react-icons/pi";
+import { FaBowlFood } from "react-icons/fa6";
+import { MdManageAccounts } from "react-icons/md";
+import { RiOrderPlayLine } from "react-icons/ri";
+import { GoListUnordered } from "react-icons/go";
 const DashboardLayout = () => {
-  const navigate = useNavigate();
+ 
   const { user, logOut, setLoading } = useAuth();
   const axiosInstance = useAxios();
   const [currentUserProfile, setCurrentUserProfile] = useState();
@@ -109,6 +115,24 @@ const DashboardLayout = () => {
                   </Link>
                 </li>
               )}
+              {/* List item */}
+              {currentUserProfile?.role === "admin" && (
+                <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage User"
+                    to="/dashboard/manageUser"
+                    // onClick={navigate("/dashboard/beaChefOrAdmin")}
+                  >
+                    {/* Settings icon */}
+
+                   <MdManageAccounts />
+                    <span className="is-drawer-close:hidden">
+                      Manage User
+                    </span>
+                  </Link>
+                </li>
+              )}
 
               {/* List item */}
               {currentUserProfile?.role === "chef" && (
@@ -128,6 +152,97 @@ const DashboardLayout = () => {
                   </Link>
                 </li>
               )}
+              {/* List item */}
+              {currentUserProfile?.role === "chef" && (
+                <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My ALL Meal"
+                    to="/dashboard/myAllMeals"
+                    // onClick={navigate("/dashboard/beaChefOrAdmin")}
+                  >
+                    {/* Settings icon */}
+
+                    <FaBowlFood />
+                    <span className="is-drawer-close:hidden">
+                      My ALL Meal
+                    </span>
+                  </Link>
+                </li>
+              )}
+              {currentUserProfile?.role === "chef" && (
+                <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Order Request"
+                    to="/dashboard/orderRequest"
+                    // onClick={navigate("/dashboard/beaChefOrAdmin")}
+                  >
+                    {/* Settings icon */}
+
+                    <RiOrderPlayLine />
+                    <span className="is-drawer-close:hidden">
+                    Order Request
+                    </span>
+                  </Link>
+                </li>
+              )}
+
+
+
+
+
+              {/* List item */}
+               <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Favorite Food"
+                    to="/dashboard/myFavoriteFood"
+                    // onClick={navigate("/dashboard/beaChefOrAdmin")}
+                  >
+                    {/* Settings icon */}
+
+                  <PiBowlFoodBold />
+                    <span className="is-drawer-close:hidden">
+                    Favorite Food
+                    </span>
+                  </Link>
+                </li>
+                {/* List item */}
+               <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip=" My Order Page"
+                    to="/dashboard/myOrderPage"
+                    // onClick={navigate("/dashboard/beaChefOrAdmin")}
+                  >
+                    {/* Settings icon */}
+
+                  <GoListUnordered />
+                    <span className="is-drawer-close:hidden">
+                    My Order Page
+                    </span>
+                  </Link>
+                </li>
+             
+                <li>
+                  <Link
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Update Review"
+                    to="/dashboard/showReview"
+                    // onClick={navigate("/dashboard/beaChefOrAdmin")}
+                  >
+                    {/* Settings icon */}
+
+                   <GrDocumentUpdate />
+                    <span className="is-drawer-close:hidden">
+                     Update Review
+                    </span>
+                  </Link>
+                </li>
+             
+               
+            
 
 
 

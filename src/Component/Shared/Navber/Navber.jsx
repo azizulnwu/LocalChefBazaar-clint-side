@@ -27,7 +27,7 @@ const Navbar = () => {
   }, [user?.email, axiosInstance]);
   console.log(currentUser);
   return (
-    <div className="max-w-[85%] mx-auto p-6">
+    <div className="max-w-[90%] mx-auto py-4 -mt-8">
       <div className="navbar bg-slate-200 p-3 rounded-box">
         <div className="navbar-start">
           <div className="dropdown">

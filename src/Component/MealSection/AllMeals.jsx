@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import useAxios from "../../Hook/useAxiosInstant";
-import { useQuery } from "@tanstack/react-query";
+
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { Link, NavLink } from "react-router";
+import useAuth from "../../Hook/useAuth";
 
-const ALlMeals = () => {
+const AllMeals = () => {
+  const { isLoading } = useAuth();
   const axiosInstance = useAxios();
-  const [allMealsLoad, setAllMealsLoad] = useState() || [];
+  const [allMealsLoad, setAllMealsLoad] = useState([]);
 
-  const { data: AllMeals = [], isLoading } = useQuery({
-    queryKey: ["AllMeals"],
-    queryFn: async () => {
-      const result = await axiosInstance.get("/allMeals");
-      // console.log(result.data)
-      return setAllMealsLoad(result.data);
-    },
-  });
+  useEffect(() => {
+    axiosInstance.get("/allMeals").then((res) => {
+      if (res.data) {
+        setAllMealsLoad(res.data);
+      }
+    });
+  }, [setAllMealsLoad, axiosInstance]);
 
   const descendingOrder = async () => {
     await axiosInstance.get("/allMeals/descending").then((res) => {
@@ -27,10 +28,6 @@ const ALlMeals = () => {
       setAllMealsLoad(res.data);
     });
   };
-
-
-
-
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
@@ -114,4 +111,4 @@ const ALlMeals = () => {
   );
 };
 
-export default ALlMeals;
+export default AllMeals;

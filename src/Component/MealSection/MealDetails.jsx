@@ -29,7 +29,7 @@ const MealDetails = () => {
       return result.data;
     },
   });
-console.log(mealDetails)
+  console.log(user);
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   const {
     _id,
@@ -44,6 +44,29 @@ console.log(mealDetails)
     chefId,
     chefEmail,
   } = mealDetails;
+
+  const FavoriteFoodHandler = () => {
+    const favoriteFoodInfo = {
+      userEmail: user.email.toLowerCase(),
+      mealId:_id,
+      mealName:foodName,
+      chefId: chefId,
+      chefName:chefName,
+      price: price,
+      createAt:new Date()
+    };
+
+    axiosInstance.post("/userFavoriteFood",favoriteFoodInfo).then(() => {
+       Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Favorite Food Added Successful",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/")
+    });
+  };
 
   // const userChallengeHandler = async () => {
   //   const { email } = user;
@@ -95,63 +118,67 @@ console.log(mealDetails)
           className="card card-side flex flex-col md:flex-row  mt-10  
      "
         >
-        
-           <figure className="">
+          <figure className="">
             <img src={foodImage} alt="Movie" className=" " />
           </figure>
-       
-          <div className="card-body bg-base-100  flex flex-col items-start">
-        
-              <h2 className="card-title mt-2 text-2xl"> Food Name: {foodName}
 
-              </h2>
-          
+          <div className="card-body bg-base-100  flex flex-col items-start">
+            <h2 className="card-title mt-2 text-2xl"> Food Name: {foodName}</h2>
+
             <p>
               <span className="font-bold text-[15px]">Chef Name</span> :{" "}
-              { chefName}
+              {chefName}
             </p>
-             <p> <span className="font-bold text-[15px] ">Ingredients :</span></p>
-            <p className="">
-              {" "}
-              
-              {ingredients}
-            </p>
-         
             <p>
-              <span className="font-bold text-[15px]">Estimated Delivery Time</span> :{" "}
-              {estimatedDeliveryTime}
+              {" "}
+              <span className="font-bold text-[15px] ">Ingredients :</span>
+            </p>
+            <p className=""> {ingredients}</p>
+
+            <p>
+              <span className="font-bold text-[15px]">
+                Estimated Delivery Time
+              </span>{" "}
+              : {estimatedDeliveryTime}
             </p>
             <p>
               <span className="font-bold text-[15px]">Delivery Area</span> :{" "}
               Khulna City
             </p>
             <p>
-              <span className="font-bold text-[15px]">Chef Experience</span> : {chefExperience}
+              <span className="font-bold text-[15px]">Chef Experience</span> :{" "}
+              {chefExperience}
             </p>
             <p>
-              <span className="font-bold text-[15px]">ChefId</span> :{" "}
-              {chefId}
+              <span className="font-bold text-[15px]">ChefId</span> : {chefId}
             </p>
             <p>
               <span className="font-bold text-[15px]">Chef Email</span> :{" "}
               {chefEmail}
             </p>
             <div className="card-actions justify-center my-4">
-              <p className="badge badge-outline font-bold">
-                 Price : { price}
-              </p>
-              <p className="badge badge-outline font-bold">
-                Rating : {rating}
-              </p>
+              <p className="badge badge-outline font-bold">Price : {price}</p>
+              <p className="badge badge-outline font-bold">Rating : {rating}</p>
             </div>
 
-            <div className="card-actions justify-end">
-              
+            <div className="card-actions">
+              <Link to={`/orderPage/${id}`} className="btn btn-primary hover:bg-blue-600 ">
+                Order Now
+              </Link>
+              <button
+                onClick={FavoriteFoodHandler}
+                className="btn btn-primary hover:bg-blue-600 "
+              >
+                Add to Favorite
+              </button>
             </div>
           </div>
-         
         </div>
-         <MealReview></MealReview>
+        <MealReview
+          id={id}
+          foodName={foodName}
+          foodImage={foodImage}
+        ></MealReview>
       </div>
       <ToastContainer></ToastContainer>
     </div>

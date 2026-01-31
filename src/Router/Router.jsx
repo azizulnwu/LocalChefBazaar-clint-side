@@ -14,6 +14,17 @@ import Home from "../Home/Home";
 import CreateMeal from "../Component/ChefSection/CreateMeal";
 
 import MealDetails from "../Component/MealSection/MealDetails";
+import MealReview from "../Component/MealSection/MealReview";
+import UserReview from "../Component/UserSection/UserReview";
+import ShowReview from "../Component/MealSection/ShowReview";
+import UpdateReview from "../Component/MealSection/UpdateReview";
+import MyFavoriteFood from "../Component/UserSection/MyFavoriteFood";
+import ChefAllMeals from "../Component/ChefSection/ChefAllMeals";
+import ChefMealUpdate from "../Component/ChefSection/ChefMealUpdate";
+import ManageUser from "../Component/Adminsection/ManageUser";
+import OrderPage from "../Component/Order/OrderPage";
+import OrderRequest from "../Component/ChefSection/OrderRequest";
+import MyOrderPage from "../Component/UserSection/MyOrderPage";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +54,19 @@ export const router = createBrowserRouter([
     element: <MealDetails></MealDetails>
   },
   {
+    path: "/mealReview/:id",
+    element:<UserReview></UserReview>
+  },
+  {
+    path: "/updateReview/:id",
+    element:<UpdateReview></UpdateReview>
+  },
+  
+  {
+    path: "/orderPage/:id",
+    element: <OrderPage></OrderPage>
+  },
+  {
     path: "*",
     Component: ErrorPage,
   },
@@ -69,7 +93,41 @@ export const router = createBrowserRouter([
       {
         path:"/dashboard/createMeal",
         element:<CreateMeal></CreateMeal>
-      }
+      },
+      {
+        path:"/dashboard/orderRequest",
+        element:<OrderRequest></OrderRequest>
+      },
+      {
+        path:"/dashboard/showReview",
+        element:<ShowReview></ShowReview>
+      },
+      {
+        path:"/dashboard/myFavoriteFood",
+        element:<MyFavoriteFood></MyFavoriteFood>
+        
+      },
+      {
+        path:"/dashboard/myOrderPage",
+        element:<MyOrderPage></MyOrderPage>
+        
+      },
+      {
+        path:"/dashboard/myAllMeals",
+        element:<ChefAllMeals></ChefAllMeals>
+        
+      },
+      {
+        path:"/dashboard/updateReview/:id",
+        element:<ChefMealUpdate></ChefMealUpdate>
+        
+      },
+      {
+        path:"/dashboard/ManageUser",
+        element:<ManageUser></ManageUser>
+        
+      },
+      
     ],
   },
 ]);

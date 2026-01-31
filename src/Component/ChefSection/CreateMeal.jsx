@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAxios from "../../Hook/useAxiosInstant";
 import { useForm } from "react-hook-form";
 import ImageUpload from "../../Utility/Image";
@@ -8,10 +8,8 @@ import { Link } from "react-router";
 import useAuth from "../../Hook/useAuth";
 const CreateMeal = () => {
   const axiosInstance = useAxios();
-  const{user} = useAuth()
-  // const axiosSecure =useAxiosSecure()
-
-  // if(loading)return <Loading></Loading>
+  const { user } = useAuth();
+  const [userStatus, setUserStatus] = useState();
 
   const {
     register,
@@ -37,27 +35,27 @@ const CreateMeal = () => {
 
     try {
       const mealInfo = {
-      foodName,
-      chefName,
-      foodImage,
-      price,
-      rating,
-      ingredients,
-      estimatedDeliveryTime,
-      chefExperience,
-      chefId,
-      chefEmail:chefEmail.toLowerCase()
+        foodName,
+        chefName,
+        foodImage,
+        price,
+        rating,
+        ingredients,
+        estimatedDeliveryTime,
+        chefExperience,
+        chefId,
+        chefEmail: chefEmail.toLowerCase(),
       };
 
-      axiosInstance.post("/meals", mealInfo ).then((res) => {
+      axiosInstance.post("/meals", mealInfo).then((res) => {
         if (res.data.insertedId) {
           console.log({ message: "Challenges Upload Successful" });
         }
         ImageUpload(imageFile).then((data) => {
           const foodImage = data;
           const challengesInfo = {
-           foodName,
-           foodImage,
+            foodName,
+            foodImage,
           };
 
           axiosInstance.patch("/meals/image", challengesInfo).then(() => {
@@ -81,6 +79,14 @@ const CreateMeal = () => {
     }
     reset();
   };
+
+  useEffect(() => {
+    if (!user?.email) return;
+
+    axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
+      setUserStatus(res.data);
+    });
+  }, [user?.email, axiosInstance]);
 
   return (
     <div className="md:max-w-[80%] mx-auto">
@@ -244,10 +250,14 @@ const CreateMeal = () => {
                   {...register("chefEmail", { required: true })}
                 />
                 {errors.chefEmail && (
-                  <p className="text-red-500 text-sm">{errors.chefEmail.message}</p>
+                  <p className="text-red-500 text-sm">
+                    {errors.chefEmail.message}
+                  </p>
                 )}
 
-                <button className="btn btn-neutral mt-4 p-2">SUBMIT</button>
+                {userStatus?.userStatus !== "fraud" && (
+                  <button className="btn btn-neutral mt-4 p-2">SUBMIT</button>
+                )}
                 {/* <button className="btn btn-neutral mt-4 p-2">
                   {loading ? <LoadingSpinner></LoadingSpinner> : "SUBMIT"}
                 </button> */}
