@@ -4,17 +4,20 @@ import useAxios from "../../Hook/useAxiosInstant";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
-
+import { useSearchParams } from "react-router";
+import Swal from "sweetalert2";
 const MyOrderPage = () => {
-   const { user } = useAuth();
-   const axiosInstance = useAxios();
+  const { user } = useAuth();
+  const axiosInstance = useAxios();
+
+  // console.log(sessionId);
   const {
     data: myOrder = [],
     error,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["myOrder",user?.email],
+    queryKey: ["myOrder", user?.email],
     queryFn: async () => {
       const result = await axiosInstance.get(
         `/orderedFood/myOrder?email=${user?.email}`,
@@ -23,7 +26,44 @@ const MyOrderPage = () => {
       return result.data;
     },
   });
+
+  // Payment Info..................
+
+  const PayAmountHandler = async (data) => {
+    const paymentData = {
+      foodPrice: data.foodPrice,
+      foodName: data.foodName,
+      email: user?.email,
+      id: data._id,
+    };
+
+    const result = await axiosInstance.post(
+      "/create-checkout-session",
+      paymentData,
+    );
+    console.log(result.data);
+    window.location.assign(result.data.url);
+  };
+
+  // const delateOldOrderHandler = (id) => {
+  //   const orderInfo = {
+  //     id,
+  //   };
+
+  //   axiosInstance.post("/orderedFood/delete", orderInfo).then(() => {
+  //     Swal.fire({
+  //       position: "top-end",
+  //       icon: "success",
+  //       title: "Delete Old Order",
+  //       showConfirmButton: false,
+  //       timer: 1500,
+  //     });
+  //      refetch();
+  //   });
+  // };
+ 
   // console.log(orderedFood);
+   refetch()
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
@@ -71,7 +111,7 @@ const MyOrderPage = () => {
                   {data.orderTime}
                 </p>
                 <div className="card-actions w-full  flex justify-between my-4">
-                  <p className="badge badge-outline font-bold">
+                  <p className="badge badge-outline font-bold md:py-0 py-6">
                     Total Price : {data.foodPrice}Tk
                   </p>
                   <p className="badge badge-outline font-bold">
@@ -81,12 +121,21 @@ const MyOrderPage = () => {
 
                 <div className="card-actions flex justify-center w-full">
                   <button
+                    onClick={() => PayAmountHandler(data)}
                     className={`btn btn-primary hover:bg-blue-600 ${
                       data.orderStatus !== "accepted" && "btn-disabled"
                     }  ${data.paymentStatus !== "pending" && "btn-disabled"}`}
                   >
                     Pay
                   </button>
+                  {/* <button
+                    onClick={() => delateOldOrderHandler(data._id)}
+                    className={`btn bg-red-500 hover:bg-red-400 ml-0.5 ${
+                      data.orderStatus === "delivered" ? "" : "btn-disabled"
+                    }`}
+                  >
+                    Delate
+                  </button> */}
                 </div>
               </div>
             </div>

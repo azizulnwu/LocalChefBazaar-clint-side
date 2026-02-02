@@ -25,6 +25,8 @@ import ManageUser from "../Component/Adminsection/ManageUser";
 import OrderPage from "../Component/Order/OrderPage";
 import OrderRequest from "../Component/ChefSection/OrderRequest";
 import MyOrderPage from "../Component/UserSection/MyOrderPage";
+import PaymentSuccess from "../Component/Payment/PaymentSuccess";
+import PaymentCancelled from "../Component/Payment/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -125,6 +127,16 @@ export const router = createBrowserRouter([
       {
         path:"/dashboard/ManageUser",
         element:<ManageUser></ManageUser>
+        
+      },
+      {
+        path:"/dashboard/paymentSuccess",
+        element:<PaymentSuccess></PaymentSuccess>
+        
+      },
+      {
+        path:"/dashboard/paymentCancelled",
+        element:<PaymentCancelled></PaymentCancelled>
         
       },
       

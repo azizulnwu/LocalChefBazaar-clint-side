@@ -31,13 +31,14 @@ const CreateMeal = () => {
       chefId,
       chefEmail,
     } = data;
-    const imageFile = foodImage[0];
 
     try {
+      const imageFile = foodImage[0];
+
       const mealInfo = {
         foodName,
         chefName,
-        foodImage,
+        // foodImage: imgUrl,
         price,
         rating,
         ingredients,
@@ -50,34 +51,33 @@ const CreateMeal = () => {
       axiosInstance.post("/meals", mealInfo).then((res) => {
         if (res.data.insertedId) {
           console.log({ message: "Challenges Upload Successful" });
-        }
-        ImageUpload(imageFile).then((data) => {
-          const foodImage = data;
-          const challengesInfo = {
-            foodName,
-            foodImage,
-          };
-
-          axiosInstance.patch("/meals/image", challengesInfo).then(() => {
-            if (res.data.insertedId) {
-              console.log({ message: "Challenges Upload Successful" });
-            }
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Meal Upload Successful",
+            showConfirmButton: false,
+            timer: 1500,
           });
-        });
+        }
 
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Meal Upload Successful",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        reset();
+      });
+
+      const imgUrl = await ImageUpload(imageFile);
+      const challengesInfo = {
+        foodName,
+        foodImage: imgUrl,
+      };
+
+      axiosInstance.patch("/meals/image", challengesInfo).then((res) => {
+        if (res.data.insertedId) {
+          console.log({ message: "Challenges Upload Successful" });
+        }
       });
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
     }
-    reset();
   };
 
   useEffect(() => {
@@ -89,9 +89,9 @@ const CreateMeal = () => {
   }, [user?.email, axiosInstance]);
 
   return (
-    <div className="md:max-w-[80%] mx-auto">
+    <div className="max-w-[80%] mx-auto">
       <div className="hero bg-base-200 min-h-screen p-4 mt-2">
-        <div className="card bg-base-100  w-[50%] shrink-0 shadow-2xl">
+        <div className="card bg-base-100  md:w-[50%] w-full shrink-0 shadow-2xl">
           <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">
             Please Add Meal
           </h1>

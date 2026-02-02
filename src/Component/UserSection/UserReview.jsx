@@ -13,7 +13,7 @@ const UserReview = () => {
   const axiosInstance = useAxios();
   const { user } = useAuth();
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // console.log(id)
 
   const {
@@ -44,7 +44,7 @@ const UserReview = () => {
     try {
       const reviewInfo = {
         reviewerName,
-        reviewerImage,
+
         comment,
         rating,
         foodId: id,
@@ -57,22 +57,7 @@ const UserReview = () => {
         if (res.data.insertedId) {
           console.log({ message: "Review Upload Successful" });
         }
-        ImageUpload(imageFile).then((data) => {
-          const reviewerImage = data;
-          console.log(reviewerImage);
-          const reviewImgInfo = {
-            id,
-            reviewerName,
-            reviewerImage,
-          };
-
-          axiosInstance.patch("/userReview/image", reviewImgInfo).then(() => {
-            if (res.data.insertedId) {
-              console.log({ message: "review Upload Successful" });
-            }
-          });
-        });
-
+       
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -80,8 +65,24 @@ const UserReview = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/")
-      });
+        navigate("/");
+      }
+      
+    );
+     const imgUrl =await ImageUpload(imageFile)
+          const reviewImgInfo = {
+            id,
+            reviewerName,
+            reviewerImage: imgUrl,
+          };
+
+          axiosInstance.patch("/userReview/image", reviewImgInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log({ message: "review Upload Successful" });
+            }
+          });
+       
+
     } catch (err) {
       console.log(err);
       toast.error(err?.message);

@@ -35,11 +35,10 @@ const OrderRequest = () => {
       return result.data;
     },
   });
-  
+
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   const orderStatusHandler = async (data, id) => {
-   
     const updateData = {
       orderStatus: data,
       id,
@@ -64,7 +63,7 @@ const OrderRequest = () => {
   };
 
   return (
-    <div className="max-w-[98%] mx-auto p-4">
+    <div className="md:max-w-[98%] mx-auto p-4">
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-2 bg-slate-400 p-4 mb-4 rounded-br-lg rounded-bl-lg">
         {orderedFood.map((data) => (
           <div key={data._id} className="bg-slate-300 w-full">
@@ -72,7 +71,7 @@ const OrderRequest = () => {
               className="card  flex flex-col md:flex-row  mt-4  
      "
             >
-              <div className="card-body  border-2 border-red-500 bg-base-100  flex flex-col items-start rounded-2xl">
+              <div className="card-body  border-2 border-red-500 bg-base-100  flex flex-col items-start rounded-2xl px-4">
                 <h2 className="card-title mt-2 text-2xl">
                   {" "}
                   Food Name: {data.foodName}
@@ -86,7 +85,7 @@ const OrderRequest = () => {
                   {data.orderStatus}
                 </p>
 
-                <p>
+                <p className="">
                   <span className="font-bold text-[15px]">User Email</span> :
                   {data.userEmail}
                 </p>
@@ -103,7 +102,7 @@ const OrderRequest = () => {
                   {data.orderTime}
                 </p>
                 <div className="card-actions w-full  flex justify-between my-4">
-                  <p className="badge badge-outline font-bold">
+                  <p className="badge badge-outline font-bold md:py-0 py-6">
                     Total Price : {data.foodPrice}Tk
                   </p>
                   <p className="badge badge-outline font-bold">
@@ -134,7 +133,11 @@ const OrderRequest = () => {
                     onClick={() => setOrderStatusDeliver("delivered", data._id)}
                     className={`btn btn-primary hover:bg-blue-600 ${
                       data.orderStatus === "accepted" ? "" : "btn-disabled"
-                    }`}
+                    }
+                    ${data.paymentStatus === "paid" ? "" : "btn-disabled"}
+                    
+                    
+                    `}
                   >
                     Deliver
                   </button>

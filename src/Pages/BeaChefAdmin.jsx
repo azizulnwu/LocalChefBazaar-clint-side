@@ -40,7 +40,7 @@ const BeaChefAdmin = () => {
           timer: 1500,
         });
         setLoading(false);
-        // navigate("/");
+        navigate("dashboard/myProfile");
       });
     } catch (err) {
       // console.log(err);

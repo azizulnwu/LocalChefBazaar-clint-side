@@ -84,31 +84,31 @@ const ManageUser = () => {
         </div>
 
         {/* ================= MOBILE VIEW ================= */}
-        <div className="md:hidden space-y-4">
+        <div className="md:hidden space-y-4 ">
           {userAll.map((data) => (
             <div
               key={data.challengeId}
-              className="border rounded-lg p-4 bg-slate-100 space-y-2"
+              className="border rounded-lg p-2 bg-slate-100 space-y-2"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center gap-3">
                 <div>
-                  <p className="font-bold">{data.name}</p>
-                  <p className="text-sm text-gray-500">{data.email}</p>
+                  <p className="font-bold">{data.displayName}</p>
+                  <p className="text-sm text-gray-500 ">{data.email}</p>
                 </div>
               </div>
 
               <p>
-                <span className="font-semibold">ID:</span> {data._id}
+                <span className="font-semibold ">ID:</span> {data._id}
               </p>
               <p>
                 <span className="font-semibold">Role:</span> {data.role}
               </p>
 
-              <div className="flex flex-wrap gap-2 pt-2">
+              <div className="flex-wrap gap-2 pt-2 flex justify-center">
                 {data.role !== "admin" && data.role !== "fraud" && (
                   <button
                     onClick={() => roleHandler("fraud", data.email)}
-                    className="btn bg-blue-300"
+                    className="btn bg-blue-300 "
                   >
                     Make Fraud
                   </button>

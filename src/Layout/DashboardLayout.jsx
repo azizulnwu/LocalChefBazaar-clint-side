@@ -228,7 +228,7 @@ const DashboardLayout = () => {
                 <li>
                   <Link
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Update Review"
+                    data-tip="My All Review"
                     to="/dashboard/showReview"
                     // onClick={navigate("/dashboard/beaChefOrAdmin")}
                   >
@@ -236,7 +236,7 @@ const DashboardLayout = () => {
 
                    <GrDocumentUpdate />
                     <span className="is-drawer-close:hidden">
-                     Update Review
+                   My All Review
                     </span>
                   </Link>
                 </li>

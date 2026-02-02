@@ -119,7 +119,7 @@ const OrderPage = () => {
         <BrandLogo></BrandLogo>
       </Link>
       <div className="hero bg-base-200 min-h-screen p-4 mt-2">
-        <div className="card bg-base-100  w-[50%] shrink-0 shadow-2xl">
+        <div className="card bg-base-100  md:w-[50%] shrink-0 shadow-2xl">
           <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">
             Please Add Meal
           </h1>

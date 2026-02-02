@@ -48,23 +48,23 @@ const MealDetails = () => {
   const FavoriteFoodHandler = () => {
     const favoriteFoodInfo = {
       userEmail: user.email.toLowerCase(),
-      mealId:_id,
-      mealName:foodName,
+      mealId: _id,
+      mealName: foodName,
       chefId: chefId,
-      chefName:chefName,
+      chefName: chefName,
       price: price,
-      createAt:new Date()
+      createAt: new Date(),
     };
 
-    axiosInstance.post("/userFavoriteFood",favoriteFoodInfo).then(() => {
-       Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Favorite Food Added Successful",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              navigate("/")
+    axiosInstance.post("/userFavoriteFood", favoriteFoodInfo).then(() => {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Favorite Food Added Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/");
     });
   };
 
@@ -115,14 +115,14 @@ const MealDetails = () => {
       </Link>
       <div className="bg-slate-300">
         <div
-          className="card card-side flex flex-col md:flex-row  mt-10  
+          className="card card-side flex flex-col md:flex-row  mt-10   
      "
         >
           <figure className="">
-            <img src={foodImage} alt="Movie" className=" " />
+            <img src={foodImage} alt="Movie" className="w-100 md:h-110" />
           </figure>
 
-          <div className="card-body bg-base-100  flex flex-col items-start">
+          <div className="card-body bg-base-100  flex flex-col items-start md:h-110">
             <h2 className="card-title mt-2 text-2xl"> Food Name: {foodName}</h2>
 
             <p>
@@ -131,9 +131,9 @@ const MealDetails = () => {
             </p>
             <p>
               {" "}
-              <span className="font-bold text-[15px] ">Ingredients :</span>
+              <span className="font-bold text-[15px] md:block hidden">Ingredients :</span>
             </p>
-            <p className=""> {ingredients}</p>
+            <p className="md:block hidden"> {ingredients}</p>
 
             <p>
               <span className="font-bold text-[15px]">
@@ -162,7 +162,10 @@ const MealDetails = () => {
             </div>
 
             <div className="card-actions">
-              <Link to={`/orderPage/${id}`} className="btn btn-primary hover:bg-blue-600 ">
+              <Link
+                to={`/orderPage/${id}`}
+                className="btn btn-primary hover:bg-blue-600 "
+              >
                 Order Now
               </Link>
               <button
@@ -174,11 +177,14 @@ const MealDetails = () => {
             </div>
           </div>
         </div>
-        <MealReview
+      <div className="hidden md:block">
+          <MealReview
           id={id}
           foodName={foodName}
           foodImage={foodImage}
+       
         ></MealReview>
+      </div>
       </div>
       <ToastContainer></ToastContainer>
     </div>

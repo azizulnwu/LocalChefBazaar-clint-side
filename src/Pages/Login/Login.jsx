@@ -85,16 +85,16 @@ const Login = () => {
 
   return (
     <div className="max-w-[80%] mx-auto">
-      <Link to="/">
+      <Link to="/" >
         <BrandLogo></BrandLogo>
       </Link>
 
-      <div className="hero bg-base-200 min-h-screen mt-2">
-        <div className="card bg-base-100  w-[50%] shrink-0 shadow-2xl">
-          <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">
+      <div className="hero md:bg-base-200 mt-10   min-h-screen md:mt-2 ">
+        <div className="card bg-base-100 md:mt-0 -mt-75  md:w-[50%] shrink-0 shadow-2xl">
+          <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg ">
             Please Login
           </h1>
-          <div className="card-body">
+          <div className="card-body md:space-y-0 space-y-6">
             <form onSubmit={handleSubmit(onLogin)}>
               <fieldset className="fieldset">
                 {/* Email field */}

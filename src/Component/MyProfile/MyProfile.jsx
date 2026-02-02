@@ -69,11 +69,11 @@ const MyProfile = () => {
 
           
 
-          <p>
+          <p className=" md:block hidden">
             <span className="font-bold text-[15px]">CreateAt </span>:{" "}
             {currentUserProfile?.createAt}
           </p>
-          <div className="card-actions justify-end">
+          <div className="card-actions md:justify-end">
             {currentUserProfile?.role !== "admin" && (
               <Link
                 to="/dashboard/beaChefAdmin"

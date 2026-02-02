@@ -129,27 +129,27 @@ const ManageRequest = () => {
         </div>
 
         {/* ================= MOBILE VIEW ================= */}
-        <div className="md:hidden space-y-4">
+        <div className="md:hidden  space-y-4 ">
           {ChefOrAdmin.map((data) => (
             <div
               key={data.challengeId}
-              className="border rounded-lg p-4 bg-slate-100 space-y-2"
+              className="  rounded-lg px-2  bg-slate-150 space-y-2"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 justify-center ">
                 <div>
                   <p className="font-bold">{data.name}</p>
                   <p className="text-sm text-gray-500">{data.email}</p>
                 </div>
               </div>
 
-              <p>
-                <span className="font-semibold">ID:</span> {data._id}
+              <p className="">
+                <span className="font-semibold ">ID:</span> {data._id}
               </p>
               <p>
                 <span className="font-semibold">Role:</span> {data.role}
               </p>
 
-              <div className="flex flex-wrap gap-2 pt-2">
+              <div className="flex flex-wrap gap-2 pt-2 justify-center">
                 {data.role === "chef" && (
                   <button
                     onClick={() => setRoleChef("chef", data.email)}

@@ -27,7 +27,7 @@ const HeroSection = () => {
           <motion.img
             key={index}
             src={data.foodImage}
-            className="w-50"
+            className="w-40"
             animate={{ x: [-30, 30] }}
             transition={{
               duration: 3 + index,

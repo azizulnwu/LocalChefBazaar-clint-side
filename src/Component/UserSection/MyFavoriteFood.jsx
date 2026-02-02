@@ -9,7 +9,7 @@ const MyFavoriteFood = () => {
   const axiosInstance = useAxios();
 
   const { data: userFavoriteFood = [], refetch } = useQuery({
-    queryKey: ["userFavoriteFood", user?.displayName],
+    queryKey: ["userFavoriteFood", user?.email],
     queryFn: async () => {
       const res = await axiosInstance.get(
         `/userFavoriteFood?email=${user?.email}`,
@@ -25,7 +25,7 @@ const MyFavoriteFood = () => {
 
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "You won't be able to delet this!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -72,14 +72,10 @@ const MyFavoriteFood = () => {
                 <tbody>
                   {userFavoriteFood.map((data) => (
                     <tr key={data?._id} className="bg-slate-100 ">
-                      <td>{data?.
-mealName
-}</td>
+                      <td>{data?.mealName}</td>
 
-                      <td>{data?.
-chefName}</td>
-                      <td>{data?.
-price}</td>
+                      <td>{data?.chefName}</td>
+                      <td>{data?.price}</td>
                       <td>{data?.createAt}</td>
                       <td>
                         {" "}

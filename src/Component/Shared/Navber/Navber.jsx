@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-
 import { Link } from "react-router";
 
 import { toast, ToastContainer } from "react-toastify";
@@ -8,7 +7,6 @@ import useAuth from "../../../Hook/useAuth";
 
 import Logo from "../Logo/Logo";
 import useAxios from "../../../Hook/useAxiosInstant";
-
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -22,7 +20,7 @@ const Navbar = () => {
     if (!user?.email) return;
     axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
       setCurrentUser(res.data);
-      console.log(res.data)
+      console.log(res.data);
     });
   }, [user?.email, axiosInstance]);
   console.log(currentUser);
@@ -56,17 +54,17 @@ const Navbar = () => {
                 <Link to="/">Home</Link>
               </li>
 
-              <li>
-                <Link to="/">Meals</Link>
-              </li>
               {/* <li>
                  <Link to="/tipsAdd">Add tips</Link>
               </li> */}
-              {user  && (
+              {user && (
                 <li>
                   <Link to="/dashboard">Dashboard</Link>
                 </li>
               )}
+              <li>
+                <Link to="/">Special Offer</Link>
+              </li>
 
               {/* {user && currentUser?.roll == "admin" && (
                 <li>
@@ -81,7 +79,9 @@ const Navbar = () => {
               <Logo></Logo>
             </div>
 
-            <Link className="text-2xl text-green-400 ml-1">LocalChefBazaar</Link>
+            <Link className="text-2xl text-green-400 ml-1 md:block hidden">
+              LocalChefBazaar
+            </Link>
           </div>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -90,15 +90,14 @@ const Navbar = () => {
               <a>Home</a>
             </li>
 
-            <li>
-              <Link to="/">Meals</Link>
-            </li>
-
-            {user&& (
+            {user && (
               <li>
                 <Link to="/dashboard">Dashboard</Link>
               </li>
             )}
+            <li>
+              <Link to="/">Special Offer</Link>
+            </li>
 
             {/* {user && currentUser?.roll == "admin" && (
               <li>
@@ -135,7 +134,7 @@ const Navbar = () => {
                   <Link to="/dashboard/myProfile">Profile</Link>
                 </li>
                 <li>
-                  <Link to="/myActivities">My Activities</Link>
+                  <Link to="/dashboard/myFavoriteFood">My Favorite Food</Link>
                 </li>
                 <li>
                   <button onClick={LogoutUser}>Logout</button>

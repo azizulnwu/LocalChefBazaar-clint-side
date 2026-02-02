@@ -96,14 +96,14 @@ const ChefAllMeals = () => {
            
             <div key={data._id} className="bg-slate-300 w-full">
               <div
-                className="card card-side flex flex-col md:flex-row  mt-10  
+                className="card card-side flex flex-col md:flex-row   
      "
               >
                 <figure className="">
-                  <img src={data.foodImage} alt="Movie" className=" " />
+                  <img src={data.foodImage} alt="Movie" className="md:w-100 md:h-110 " />
                 </figure>
 
-                <div className="card-body bg-base-100  flex flex-col items-start">
+                <div className="card-body bg-base-100  flex flex-col items-start md:h-110">
                   <h2 className="card-title mt-2 text-2xl">
                     {" "}
                     Food Name: {data.foodName}
