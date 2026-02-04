@@ -7,22 +7,32 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import ImageUpload from "../../Utility/Image";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const ChefMealUpdate = () => {
-  const axiosInstance = useAxios();
+  // const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
+  const [userStatus, setUserStatus] = useState();
 
   const { data: chefMeal = [], refetch } = useQuery({
     queryKey: ["chefMeal", user, id],
     queryFn: async () => {
-      const res = await axiosInstance.get(`/chefMeal/${id}`);
+      const res = await axiosSecure.get(`/chefMeal/${id}`);
       console.log(res.data);
       return res.data;
     },
   });
-  console.log(chefMeal[0]?.chefExperience);
+
+  useEffect(() => {
+    if (!user?.email) return;
+
+    axiosSecure.get(`/user?email=${user?.email}`).then((res) => {
+      setUserStatus(res.data);
+    });
+  }, [user?.email, axiosSecure]);
 
   const {
     register,
@@ -44,7 +54,7 @@ const ChefMealUpdate = () => {
     } = data;
     const imageFile = foodImage[0];
 
-    const foodImageUrl=await ImageUpload(imageFile);
+    const foodImageUrl = await ImageUpload(imageFile);
     try {
       const mealUpdateInfo = {
         id,
@@ -55,10 +65,10 @@ const ChefMealUpdate = () => {
         ingredients,
         estimatedDeliveryTime,
         chefExperience,
-        foodImage:foodImageUrl
+        foodImage: foodImageUrl,
       };
 
-      axiosInstance.patch("/chefALLMeal", mealUpdateInfo).then((res) => {
+      axiosSecure.patch("/chefALLMeal", mealUpdateInfo).then((res) => {
         if (res.data.insertedId) {
           console.log({ message: "Review Upload Successful" });
         }
@@ -75,14 +85,20 @@ const ChefMealUpdate = () => {
         navigate("/dashboard/myAllMeals");
       });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error(err?.message);
     }
     reset();
   };
 
   return (
-    <div className="">
+    <div className="max-w-[100%] mx-auto">
+        <div className="hero bg-base-200 min-h-screen p-4 mt-2">
+        <div className="card bg-base-100  md:w-[50%] w-full shrink-0 shadow-2xl">
+       <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">
+            Please Update Meal
+          </h1>
+           <div className="card-body">
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset className="fieldset">
           {/* Food Name field */}
@@ -216,12 +232,17 @@ const ChefMealUpdate = () => {
             <p className="text-red-500 text-sm">{errors.chefEmail.message}</p>
           )}
 
-          <button className="btn btn-neutral mt-4 p-2">SUBMIT</button>
+          {userStatus?.userStatus !== "fraud" && (
+            <button className="btn btn-neutral mt-4 p-2">SUBMIT</button>
+          )}
           {/* <button className="btn btn-neutral mt-4 p-2">
                   {loading ? <LoadingSpinner></LoadingSpinner> : "SUBMIT"}
                 </button> */}
         </fieldset>
       </form>
+       </div>
+       </div>
+       </div>
     </div>
   );
 };

@@ -23,7 +23,7 @@ const ForgotPassword = () => {
   } = useForm();
 
   const handleForgotPassword = async (data) => {
-    console.log(data);
+    // console.log(data);
     alert("Pls. check your Email");
     navigate("/");
   };

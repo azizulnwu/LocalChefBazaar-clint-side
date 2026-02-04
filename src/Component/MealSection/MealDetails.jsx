@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import BrandLogo from "../Shared/Logo/BrandLogo";
 import MealReview from "./MealReview";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const MealDetails = () => {
   const { user } = useAuth();
@@ -15,7 +16,7 @@ const MealDetails = () => {
   const navigate = useNavigate();
   // console.log(id);
   const axiosInstance = useAxios();
-  // const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure()
   const {
     data: mealDetails = {},
     error,
@@ -24,13 +25,13 @@ const MealDetails = () => {
   } = useQuery({
     queryKey: ["mealDetails", id],
     queryFn: async () => {
-      const result = await axiosInstance.get(`/mealDetails/${id}`);
+      const result = await axiosSecure.get(`/mealDetails/${id}`);
       // console.log(result.data);
       return result.data;
     },
   });
-  console.log(user);
-  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+  // console.log(user);
+ 
   const {
     _id,
     foodName,
@@ -56,7 +57,7 @@ const MealDetails = () => {
       createAt: new Date(),
     };
 
-    axiosInstance.post("/userFavoriteFood", favoriteFoodInfo).then(() => {
+    axiosSecure.post("/userFavoriteFood", favoriteFoodInfo).then(() => {
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -67,7 +68,7 @@ const MealDetails = () => {
       navigate("/");
     });
   };
-
+ if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   // const userChallengeHandler = async () => {
   //   const { email } = user;
 

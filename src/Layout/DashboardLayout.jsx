@@ -11,19 +11,21 @@ import { FaBowlFood } from "react-icons/fa6";
 import { MdManageAccounts } from "react-icons/md";
 import { RiOrderPlayLine } from "react-icons/ri";
 import { GoListUnordered } from "react-icons/go";
+import useAxiosSecure from "../Hook/useAxiosSecure";
 const DashboardLayout = () => {
  
   const { user, logOut, setLoading } = useAuth();
   const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure()
   const [currentUserProfile, setCurrentUserProfile] = useState();
 
   useEffect(() => {
     if (!user?.email) return;
 
-    axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
+    axiosSecure.get(`/user?email=${user?.email}`).then((res) => {
       setCurrentUserProfile(res.data);
     });
-  }, [user?.email, axiosInstance]);
+  }, [user?.email, axiosSecure]);
 
   return (
     <div className="bg-slate-100">
@@ -101,7 +103,7 @@ const DashboardLayout = () => {
               {currentUserProfile?.role === "admin" && (
                 <li>
                   <Link
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    className="is-drawer-close:tooltip wis-drawer-close:tooltip-right"
                     data-tip="Manage Request"
                     to="/dashboard/manageRequest"
                     // onClick={navigate("/dashboard/beaChefOrAdmin")}
@@ -193,7 +195,8 @@ const DashboardLayout = () => {
 
 
               {/* List item */}
-               <li>
+             {
+              currentUserProfile?.role === "user" || currentUserProfile?.role === "admin" &&  <li>
                   <Link
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="Favorite Food"
@@ -208,8 +211,10 @@ const DashboardLayout = () => {
                     </span>
                   </Link>
                 </li>
+             }
                 {/* List item */}
-               <li>
+              {
+                 currentUserProfile?.role === "user" &&   <li>
                   <Link
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip=" My Order Page"
@@ -224,8 +229,10 @@ const DashboardLayout = () => {
                     </span>
                   </Link>
                 </li>
+              }
              
-                <li>
+              {
+               currentUserProfile?.role === "user" &&   <li>
                   <Link
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My All Review"
@@ -241,6 +248,7 @@ const DashboardLayout = () => {
                   </Link>
                 </li>
              
+              }
                
             
 

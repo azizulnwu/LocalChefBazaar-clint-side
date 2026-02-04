@@ -6,11 +6,12 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
 import useAuth from "../../Hook/useAuth";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 const CreateMeal = () => {
   const axiosInstance = useAxios();
   const { user } = useAuth();
   const [userStatus, setUserStatus] = useState();
-
+  const axiosSecure = useAxiosSecure()
   const {
     register,
     handleSubmit,
@@ -48,9 +49,9 @@ const CreateMeal = () => {
         chefEmail: chefEmail.toLowerCase(),
       };
 
-      axiosInstance.post("/meals", mealInfo).then((res) => {
+      axiosSecure.post("/meals", mealInfo).then((res) => {
         if (res.data.insertedId) {
-          console.log({ message: "Challenges Upload Successful" });
+          // console.log({ message: "Challenges Upload Successful" });
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -69,13 +70,13 @@ const CreateMeal = () => {
         foodImage: imgUrl,
       };
 
-      axiosInstance.patch("/meals/image", challengesInfo).then((res) => {
+      axiosSecure.patch("/meals/image", challengesInfo).then((res) => {
         if (res.data.insertedId) {
           console.log({ message: "Challenges Upload Successful" });
         }
       });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error(err?.message);
     }
   };
@@ -83,10 +84,10 @@ const CreateMeal = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
+     axiosSecure.get(`/user?email=${user?.email}`).then((res) => {
       setUserStatus(res.data);
     });
-  }, [user?.email, axiosInstance]);
+  }, [user?.email,  axiosSecure]);
 
   return (
     <div className="max-w-[80%] mx-auto">

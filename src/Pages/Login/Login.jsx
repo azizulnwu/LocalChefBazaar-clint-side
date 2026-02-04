@@ -13,11 +13,9 @@ import useAxios from "../../Hook/useAxiosInstant";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const axiosInstance =useAxios()
-  // console.log(location);
+  const axiosInstance = useAxios();
+  // console.log(location.state);
   const { signIn, signInWithGoogle, loading, setLoading } = useAuth();
-
-  // if(loading)return <Loading></Loading>
 
   const {
     register,
@@ -37,7 +35,7 @@ const Login = () => {
           timer: 1500,
         });
         setLoading(false);
-        navigate("/");
+        navigate(location.state || "/");
       })
       .catch((err) => {
         // console.log(err);
@@ -45,13 +43,13 @@ const Login = () => {
       });
   };
 
- const SignInWithGoogle = async () => {
+  const SignInWithGoogle = async () => {
     try {
       setLoading(true);
 
       const result = await signInWithGoogle();
       const user = result.user;
-      console.log(user);
+      // console.log(user);
 
       const userInfo = {
         displayName: user.displayName,
@@ -81,11 +79,11 @@ const Login = () => {
       setLoading(false);
     }
   };
-
+  if (loading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <div className="max-w-[80%] mx-auto">
-      <Link to="/" >
+      <Link to="/">
         <BrandLogo></BrandLogo>
       </Link>
 

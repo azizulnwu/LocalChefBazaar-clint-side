@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
 import ChefMealUpdate from "./ChefMealUpdate";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const ChefAllMeals = () => {
   const { user } = useAuth();
@@ -15,7 +16,7 @@ const ChefAllMeals = () => {
   const modalRef = useRef();
   // console.log(id);
   const axiosInstance = useAxios();
-  // const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure()
   const {
     data: chefALLMeal = {},
     error,
@@ -24,14 +25,14 @@ const ChefAllMeals = () => {
   } = useQuery({
     queryKey: ["chefALLMeal", user?.displayName],
     queryFn: async () => {
-      const result = await axiosInstance.get(
+      const result = await axiosSecure.get(
         `/chefALLMeal?email=${user?.email}`,
       );
       // console.log(result.data);
       return result.data;
     },
   });
-  console.log(chefALLMeal);
+  // console.log(chefALLMeal);
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   const {
     _id,
@@ -46,12 +47,12 @@ const ChefAllMeals = () => {
     chefId,
     chefEmail,
   } = chefALLMeal;
-  console.log(chefALLMeal);
+  // console.log(chefALLMeal);
 
-  const closeModal = () => {
-    modalRef.current.close();
-    return refetch();
-  };
+  // const closeModal = () => {
+  //   modalRef.current.close();
+  //   return refetch();
+  // };
 
   const delateFavoriteFood = async (id) => {
     const deleteInfo = {
@@ -68,7 +69,7 @@ const ChefAllMeals = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosInstance.post("/chefALLMeal/delete", deleteInfo).then(() => {
+        axiosSecure.post("/chefALLMeal/delete", deleteInfo).then(() => {
           Swal.fire({
             position: "top-end",
             icon: "success",

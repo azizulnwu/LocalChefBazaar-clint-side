@@ -5,20 +5,21 @@ import useAxios from "../../Hook/useAxiosInstant";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const OrderRequest = () => {
   const { user } = useAuth();
   const [chefId, setChefId] = useState();
-
+  const axiosSecure = useAxiosSecure()
   const axiosInstance = useAxios();
 
   useEffect(() => {
     if (!user?.email) return;
 
-    axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
+    axiosSecure.get(`/user?email=${user?.email}`).then((res) => {
       setChefId(res.data);
     });
-  }, [user?.email, axiosInstance]);
+  }, [user?.email, axiosSecure]);
 
   const {
     data: orderedFood = [],
@@ -28,10 +29,10 @@ const OrderRequest = () => {
   } = useQuery({
     queryKey: ["orderedFood", chefId?.chefID],
     queryFn: async () => {
-      const result = await axiosInstance.get(
+      const result = await axiosSecure.get(
         `/orderedFood?chefId=${chefId?.chefID}`,
       );
-      console.log(result.data);
+      // console.log(result.data);
       return result.data;
     },
   });
@@ -43,7 +44,7 @@ const OrderRequest = () => {
       orderStatus: data,
       id,
     };
-    await axiosInstance
+    await axiosSecure
       .patch("/orderedFood/orderStatus", updateData)
       .then(async () => {
         toast("Order Status update goingOn");

@@ -7,10 +7,12 @@ import useAuth from "../../../Hook/useAuth";
 
 import Logo from "../Logo/Logo";
 import useAxios from "../../../Hook/useAxiosInstant";
+import useAxiosSecure from "../../../Hook/useAxiosSecure";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure()
   const [currentUser, setCurrentUser] = useState();
   const LogoutUser = () => {
     logOut().then(() => toast.success("Logout successfully"));
@@ -18,12 +20,12 @@ const Navbar = () => {
 
   useEffect(() => {
     if (!user?.email) return;
-    axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
+   axiosSecure.get(`/user?email=${user?.email}`).then((res) => {
       setCurrentUser(res.data);
       console.log(res.data);
     });
-  }, [user?.email, axiosInstance]);
-  console.log(currentUser);
+  }, [user?.email,axiosSecure]);
+  console.log(user);
   return (
     <div className="max-w-[90%] mx-auto py-4 -mt-8">
       <div className="navbar bg-slate-200 p-3 rounded-box">
@@ -53,25 +55,18 @@ const Navbar = () => {
               <li>
                 <Link to="/">Home</Link>
               </li>
+              <li>
+                <Link to="/allMeals">Meals</Link>
+              </li>
 
-              {/* <li>
-                 <Link to="/tipsAdd">Add tips</Link>
-              </li> */}
               {user && (
                 <li>
                   <Link to="/dashboard">Dashboard</Link>
                 </li>
               )}
               <li>
-                <Link to="/">Special Offer</Link>
+                <Link to="/specialOffer">Special Offer</Link>
               </li>
-
-              {/* {user && currentUser?.roll == "admin" && (
-                <li>
-                  {" "}
-                  <Link to="/addChallenges">Add Challenges</Link>{" "}
-                </li>
-              )} */}
             </ul>
           </div>
           <div className="flex items-center ml-2">
@@ -87,7 +82,10 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a>Home</a>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/allMeals">Meals</Link>
             </li>
 
             {user && (
@@ -96,7 +94,7 @@ const Navbar = () => {
               </li>
             )}
             <li>
-              <Link to="/">Special Offer</Link>
+              <Link to="/specialOffer">Special Offer</Link>
             </li>
 
             {/* {user && currentUser?.roll == "admin" && (
@@ -114,7 +112,7 @@ const Navbar = () => {
         <div className="navbar-end">
           {user ? (
             <div className="dropdown">
-              <div tabIndex={0} role="button" className="btn m-1">
+              <div tabIndex={0} role="button" className="btn m-1 rounded-2xl">
                 <img
                   src={
                     currentUser?.photoUrl
@@ -128,14 +126,27 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex="-1"
-                className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                className="dropdown-content menu bg-base-100 rounded-box z-1 w-46 p-2 shadow-sm"
               >
                 <li>
                   <Link to="/dashboard/myProfile">Profile</Link>
                 </li>
-                <li>
-                  <Link to="/dashboard/myFavoriteFood">My Favorite Food</Link>
-                </li>
+                {currentUser?.role === "user" && (
+                  <li>
+                    <Link to="/dashboard/myFavoriteFood">My Favorite Food</Link>
+                  </li>
+                )}
+                {currentUser?.role === "chef" && (
+                  <li>
+                    <Link to="/dashboard/createMeal">Create Meal</Link>
+                  </li>
+                )}
+                {currentUser?.role === "admin" && (
+                  <li>
+                    <Link to="/dashboard/manageUser">Manage User</Link>
+                  </li>
+                )}
+
                 <li>
                   <button onClick={LogoutUser}>Logout</button>
                 </li>

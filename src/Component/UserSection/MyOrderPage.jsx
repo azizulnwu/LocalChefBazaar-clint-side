@@ -6,10 +6,11 @@ import LoadingSpinner from "../Shared/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
 import { useSearchParams } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 const MyOrderPage = () => {
   const { user } = useAuth();
   const axiosInstance = useAxios();
-
+  const axiosSecure = useAxiosSecure()
   // console.log(sessionId);
   const {
     data: myOrder = [],
@@ -19,10 +20,10 @@ const MyOrderPage = () => {
   } = useQuery({
     queryKey: ["myOrder", user?.email],
     queryFn: async () => {
-      const result = await axiosInstance.get(
+      const result = await axiosSecure.get(
         `/orderedFood/myOrder?email=${user?.email}`,
       );
-      console.log(result.data);
+      // console.log(result.data);
       return result.data;
     },
   });
@@ -41,7 +42,7 @@ const MyOrderPage = () => {
       "/create-checkout-session",
       paymentData,
     );
-    console.log(result.data);
+    // console.log(result.data);
     window.location.assign(result.data.url);
   };
 

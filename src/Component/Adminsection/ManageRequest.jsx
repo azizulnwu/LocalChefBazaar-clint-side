@@ -6,10 +6,11 @@ import { toast, ToastContainer } from "react-toastify";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { Link } from "react-router";
 import BrandLogo from "../Shared/Logo/BrandLogo";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 const ManageRequest = () => {
   const { user } = useAuth() || [];
   const axiosInstance = useAxios();
-  // const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure()
   const { email } = user || [];
 
   const {
@@ -19,13 +20,13 @@ const ManageRequest = () => {
   } = useQuery({
     queryKey: ["chefOrAdmin", user],
     queryFn: async () => {
-      const res = await axiosInstance.get(`/chefOrAdmin`);
-      console.log(res.data);
+      const res = await axiosSecure.get(`/chefOrAdmin`);
+      // console.log(res.data);
       return res.data;
     },
   });
 
-  console.log(ChefOrAdmin);
+  // console.log(ChefOrAdmin);
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   
@@ -36,13 +37,13 @@ const ManageRequest = () => {
       role: data,
       email,
     };
-    await axiosInstance.patch("/user/role", updateData).then(async () => {
+    await axiosSecure.patch("/user/role", updateData).then(async () => {
       toast("Role update goingOn");
       const deleteChallengerData = {
         email,
       };
       // console.log(deleteChallengerData)
-      await axiosInstance.post("/chefOrAdmin/delete", deleteChallengerData);
+      await axiosSecure.post("/chefOrAdmin/delete", deleteChallengerData);
 
       refetch();
     });

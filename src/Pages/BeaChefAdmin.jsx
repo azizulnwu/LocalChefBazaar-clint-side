@@ -7,11 +7,12 @@ import { Link } from "react-router";
 import { toast } from "react-toastify";
 import useAxios from "../Hook/useAxiosInstant";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../Hook/useAxiosSecure";
 const BeaChefAdmin = () => {
   const { loading,setLoading} = useAuth();
   const navigate = useNavigate();
    const axiosInstance = useAxios();
-  
+  const axiosSecure = useAxiosSecure()
   const {
     register,
     handleSubmit,
@@ -28,7 +29,7 @@ const BeaChefAdmin = () => {
         role,
       };
 
-      await axiosInstance.post("/chefOrAdmin", userInfo).then((res) => {
+      await axiosSecure.post("/chefOrAdmin", userInfo).then((res) => {
         if (res.data.insertedId) {
           console.log({ message: "user is created" });
         }

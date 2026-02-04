@@ -4,11 +4,12 @@ import useAxios from "../../Hook/useAxiosInstant";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { toast, ToastContainer } from "react-toastify";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const ManageUser = () => {
   const { user } = useAuth() || [];
   const axiosInstance = useAxios();
-  // const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure()
   const { email } = user || [];
 
   const {
@@ -18,7 +19,7 @@ const ManageUser = () => {
   } = useQuery({
     queryKey: ["userAll", user],
     queryFn: async () => {
-      const res = await axiosInstance.get(`/user/all`);
+      const res = await axiosSecure.get(`/user/all`);
       console.log(res.data);
       return res.data;
     },
@@ -29,7 +30,7 @@ const ManageUser = () => {
       userStatus: data,
       email,
     };
-    await axiosInstance.patch("/user/status", updateData).then(async () => {
+    await axiosSecure.patch("/user/status", updateData).then(async () => {
       toast("Status update goingOn");
       refetch();
     });

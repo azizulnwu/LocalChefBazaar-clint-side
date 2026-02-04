@@ -4,19 +4,21 @@ import useAuth from "../../Hook/useAuth";
 import useAxios from "../../Hook/useAxiosInstant";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../Shared/LoadingSpinner";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const MealReview = ({ id }) => {
   const { user, isLoading } = useAuth();
   const axiosInstance = useAxios();
-  console.log(id);
+  const axiosSecure  = useAxiosSecure()
+  // console.log(id);
   const { data: userReview = [], refetch } = useQuery({
     queryKey: ["userReview", user],
     queryFn: async () => {
-      const res = await axiosInstance.get(`/userReview/${id}`);
+      const res = await axiosSecure.get(`/userReview/${id}`);
       return res.data;
     },
   });
-  console.log(userReview)
+  // console.log(userReview)
   refetch();
 
   

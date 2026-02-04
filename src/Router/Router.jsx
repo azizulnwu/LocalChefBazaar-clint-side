@@ -27,6 +27,10 @@ import OrderRequest from "../Component/ChefSection/OrderRequest";
 import MyOrderPage from "../Component/UserSection/MyOrderPage";
 import PaymentSuccess from "../Component/Payment/PaymentSuccess";
 import PaymentCancelled from "../Component/Payment/PaymentCancelled";
+import PrivateRoute from "./PrivateRoute";
+import AdminPrivateRoute from "./AdminPrivateRoute";
+import SpecialOffer from "../Pages/SpecialOffer";
+import AllMeals from "../Component/MealSection/ALlMeals";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +41,10 @@ export const router = createBrowserRouter([
         index: true,
         Component: Home,
       },
+      {
+        path:"/allMeals",
+        Component:AllMeals
+      }
     ],
   },
   {
@@ -53,20 +61,40 @@ export const router = createBrowserRouter([
   },
   {
     path: "/mealDetails/:id",
-    element: <MealDetails></MealDetails>
+    element: (
+      <PrivateRoute>
+        <MealDetails></MealDetails>
+      </PrivateRoute>
+    ),
   },
   {
     path: "/mealReview/:id",
-    element:<UserReview></UserReview>
+    element: (
+      <PrivateRoute>
+        <UserReview></UserReview>
+      </PrivateRoute>
+    ),
   },
   {
     path: "/updateReview/:id",
-    element:<UpdateReview></UpdateReview>
+    element: (
+      <PrivateRoute>
+        <UpdateReview></UpdateReview>
+      </PrivateRoute>
+    ),
   },
-  
+
   {
     path: "/orderPage/:id",
-    element: <OrderPage></OrderPage>
+    element: (
+      <PrivateRoute>
+        <OrderPage></OrderPage>
+      </PrivateRoute>
+    ),
+  },
+   {
+    path: "/specialOffer",
+    Component: SpecialOffer,
   },
   {
     path: "*",
@@ -77,69 +105,66 @@ export const router = createBrowserRouter([
     Component: DashboardLayout,
     children: [
       {
-        index:true,
-        element:<DashBoardHome></DashBoardHome>
+        index: true,
+        element: (
+          <PrivateRoute>
+            <DashBoardHome></DashBoardHome>
+          </PrivateRoute>
+        ),
+
       },
       {
-       path:"/dashboard/myProfile",
-       element:<MyProfile></MyProfile>
+        path: "/dashboard/myProfile",
+        element: <MyProfile></MyProfile>,
       },
       {
-       path:"/dashboard/beaChefAdmin",
-       element:<BeaChefAdmin></BeaChefAdmin>
+        path: "/dashboard/beaChefAdmin",
+        element: <BeaChefAdmin></BeaChefAdmin>,
       },
       {
-        path:"/dashboard/manageRequest",
-        element:<ManageRequest></ManageRequest>
+        path: "/dashboard/manageRequest",
+        element: <ManageRequest></ManageRequest>,
       },
       {
-        path:"/dashboard/createMeal",
-        element:<CreateMeal></CreateMeal>
+        path: "/dashboard/createMeal",
+        element: <CreateMeal></CreateMeal>,
       },
       {
-        path:"/dashboard/orderRequest",
-        element:<OrderRequest></OrderRequest>
+        path: "/dashboard/orderRequest",
+        element: <OrderRequest></OrderRequest>,
       },
       {
-        path:"/dashboard/showReview",
-        element:<ShowReview></ShowReview>
+        path: "/dashboard/showReview",
+        element: <ShowReview></ShowReview>,
       },
       {
-        path:"/dashboard/myFavoriteFood",
-        element:<MyFavoriteFood></MyFavoriteFood>
-        
+        path: "/dashboard/myFavoriteFood",
+        element: <MyFavoriteFood></MyFavoriteFood>,
       },
       {
-        path:"/dashboard/myOrderPage",
-        element:<MyOrderPage></MyOrderPage>
-        
+        path: "/dashboard/myOrderPage",
+        element: <MyOrderPage></MyOrderPage>,
       },
       {
-        path:"/dashboard/myAllMeals",
-        element:<ChefAllMeals></ChefAllMeals>
-        
+        path: "/dashboard/myAllMeals",
+        element: <ChefAllMeals></ChefAllMeals>,
       },
       {
-        path:"/dashboard/updateReview/:id",
-        element:<ChefMealUpdate></ChefMealUpdate>
-        
+        path: "/dashboard/updateReview/:id",
+        element: <ChefMealUpdate></ChefMealUpdate>,
       },
       {
-        path:"/dashboard/ManageUser",
-        element:<ManageUser></ManageUser>
-        
+        path: "/dashboard/ManageUser",
+        element: <ManageUser></ManageUser>,
       },
       {
-        path:"/dashboard/paymentSuccess",
-        element:<PaymentSuccess></PaymentSuccess>
-        
+        path: "/dashboard/paymentSuccess",
+        element: <PaymentSuccess></PaymentSuccess>,
       },
       {
-        path:"/dashboard/paymentCancelled",
-        element:<PaymentCancelled></PaymentCancelled>
-        
+        path: "/dashboard/paymentCancelled",
+        element: <PaymentCancelled></PaymentCancelled>,
       },
-      
     ],
   },
 ]);

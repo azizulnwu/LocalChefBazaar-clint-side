@@ -5,13 +5,13 @@ import { useNavigate } from "react-router";
 import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
-  baseURL: "https://ecotrack-server-side-seven.vercel.app",
+  baseURL: "http://localhost:3000"
 });
 
 const useAxiosSecure = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
-  console.log(user?.accessToken);
+  // console.log(user?.accessToken);
 
   useEffect(() => {
     // Add a request interceptor
@@ -42,7 +42,7 @@ const useAxiosSecure = () => {
       axiosSecure.interceptors.request.eject(reqInterceptor);
       axiosSecure.interceptors.response.eject(resInterceptor);
     };
-  }, [user]);
+  }, [user,logOut,navigate]);
 
   return axiosSecure;
 };

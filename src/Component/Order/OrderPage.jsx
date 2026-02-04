@@ -8,9 +8,11 @@ import BrandLogo from "../Shared/Logo/BrandLogo";
 import { Link, useNavigate, useParams } from "react-router";
 import ImageUpload from "../../Utility/Image";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const OrderPage = () => {
   const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure()
   const { user } = useAuth();
   const [userStatus, setUserStatus] = useState();
   const { id } = useParams();
@@ -23,7 +25,7 @@ const OrderPage = () => {
   } = useQuery({
     queryKey: ["orderMealDetails", id],
     queryFn: async () => {
-      const result = await axiosInstance.get(`/mealDetails/${id}`);
+      const result = await axiosSecure.get(`/mealDetails/${id}`);
       // console.log(result.data);
       return result.data;
     },
@@ -71,7 +73,7 @@ const OrderPage = () => {
         confirmButtonText: "Yes",
       }).then((result) => {
         if (result.isConfirmed) {
-          axiosInstance.post("/orderedFood", mealInfo).then((res) => {
+          axiosSecure.post("/orderedFood", mealInfo).then((res) => {
             if (res.data.insertedId) {
               console.log({ message: "Challenges Upload Successful" });
             }
@@ -88,7 +90,7 @@ const OrderPage = () => {
         }
       });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error(err?.message);
     }
     reset();
@@ -108,10 +110,10 @@ const OrderPage = () => {
       setValue("userEmail", user.email);
     }
 
-    axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
+    axiosSecure.get(`/user?email=${user?.email}`).then((res) => {
       setUserStatus(res.data);
     });
-  }, [user?.email, axiosInstance, orderMealDetails, user, setValue]);
+  }, [user?.email, axiosSecure, orderMealDetails, user, setValue]);
 
   return (
     <div className="md:max-w-[80%] mx-auto">

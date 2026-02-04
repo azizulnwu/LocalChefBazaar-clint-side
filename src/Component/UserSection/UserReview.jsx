@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import BrandLogo from "../Shared/Logo/BrandLogo";
 import useAxios from "../../Hook/useAxiosInstant";
@@ -8,12 +8,15 @@ import ImageUpload from "../../Utility/Image";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const UserReview = () => {
   const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure()
   const { user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
+  const [userStatus, setUserStatus] = useState();
   // console.log(id)
 
   const {
@@ -24,11 +27,19 @@ const UserReview = () => {
   } = useQuery({
     queryKey: ["mealDetails", id],
     queryFn: async () => {
-      const result = await axiosInstance.get(`/mealDetails/${id}`);
+      const result = await axiosSecure.get(`/mealDetails/${id}`);
       // console.log(result.data);
       return result.data;
     },
   });
+
+    useEffect(() => {
+      if (!user?.email) return;
+  
+      axiosSecure.get(`/user?email=${user?.email}`).then((res) => {
+        setUserStatus(res.data);
+      });
+    }, [user?.email, axiosSecure]);
 
   const {
     register,
@@ -53,7 +64,7 @@ const UserReview = () => {
         foodImage: mealDetails.foodImage,
       };
 
-      axiosInstance.post("/userReview", reviewInfo).then((res) => {
+      axiosSecure.post("/userReview", reviewInfo).then((res) => {
         if (res.data.insertedId) {
           console.log({ message: "Review Upload Successful" });
         }
@@ -76,7 +87,7 @@ const UserReview = () => {
             reviewerImage: imgUrl,
           };
 
-          axiosInstance.patch("/userReview/image", reviewImgInfo).then((res) => {
+         axiosSecure.patch("/userReview/image", reviewImgInfo).then((res) => {
             if (res.data.insertedId) {
               console.log({ message: "review Upload Successful" });
             }
@@ -84,7 +95,7 @@ const UserReview = () => {
        
 
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error(err?.message);
     }
     reset();
@@ -168,7 +179,9 @@ const UserReview = () => {
                   </p>
                 )}
 
-                <button className="btn btn-neutral mt-4 p-2">SUBMIT</button>
+                 {userStatus?.userStatus !== "fraud" && (
+                  <button className="btn btn-neutral mt-4 p-2">SUBMIT</button>
+                )}
                 {/* <button className="btn btn-neutral mt-4 p-2">
                   {loading ? <LoadingSpinner></LoadingSpinner> : "SUBMIT"}
                 </button> */}

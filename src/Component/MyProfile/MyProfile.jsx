@@ -5,11 +5,12 @@ import { toast, ToastContainer } from "react-toastify";
 import useAuth from "../../Hook/useAuth";
 import useAxios from "../../Hook/useAxiosInstant";
 import BrandLogo from "../Shared/Logo/BrandLogo";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const MyProfile = () => {
   const { user, logOut, setLoading } = useAuth();
   const axiosInstance = useAxios();
-  // const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure()
   const navigate = useNavigate();
   const [currentUserProfile, setCurrentUserProfile] = useState();
 
@@ -24,10 +25,10 @@ const MyProfile = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    axiosInstance.get(`/user?email=${user?.email}`).then((res) => {
+    axiosSecure.get(`/user?email=${user?.email}`).then((res) => {
       setCurrentUserProfile(res.data);
     });
-  }, [user?.email, axiosInstance]);
+  }, [user?.email, axiosSecure]);
   // console.log(currentUserProfile);
   return (
     <div className="">

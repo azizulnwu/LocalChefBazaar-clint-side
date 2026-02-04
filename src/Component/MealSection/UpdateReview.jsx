@@ -6,9 +6,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import BrandLogo from "../Shared/Logo/BrandLogo";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const UpdateReview = ({ id,closeModal}) => {
   const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure()
   const { user } = useAuth();
 
   const {
@@ -28,7 +30,7 @@ const UpdateReview = ({ id,closeModal}) => {
         id,
       };
 
-      axiosInstance.patch("/userReviewUpdate", reviewInfo).then((res) => {
+      axiosSecure.patch("/userReviewUpdate", reviewInfo).then((res) => {
         if (res.data.insertedId) {
           console.log({ message: "Review Upload Successful" });
         }
@@ -43,7 +45,7 @@ const UpdateReview = ({ id,closeModal}) => {
         
       });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error(err?.message);
     }
     reset();

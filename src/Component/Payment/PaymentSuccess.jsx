@@ -4,16 +4,18 @@ import useAxios from "../../Hook/useAxiosInstant";
 import useAuth from "../../Hook/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const PaymentSuccess = () => {
   const axiosInstance = useAxios();
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const { user, isLoading } = useAuth();
+  const axiosSecure = useAxiosSecure()
 
   useEffect(() => {
     if (sessionId) {
-      axiosInstance
+     axiosInstance
         .patch(`/payment-success?session_id=${sessionId}`)
         .then((res) => {
           console.log(res.data);
@@ -24,10 +26,10 @@ const PaymentSuccess = () => {
   const { data: paymentInformation = [], refetch } = useQuery({
     queryKey: ["paymentInformation", user],
     queryFn: async () => {
-      const res = await axiosInstance.get(
+      const res = await axiosSecure.get(
         `/paymentInformation?email=${user.email}`,
       );
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     },
   });
@@ -37,7 +39,7 @@ const PaymentSuccess = () => {
       id,
     };
 
-    axiosInstance.post("/paymentInformation/delete", paymentInfo).then(() => {
+    axiosSecure.post("/paymentInformation/delete", paymentInfo).then(() => {
       Swal.fire({
         position: "top-end",
         icon: "success",

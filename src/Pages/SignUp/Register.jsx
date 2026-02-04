@@ -44,7 +44,7 @@ const Register = () => {
     try {
       createUser(email, password).then(() => {
         ImageUpload(imageFile).then(async (data) => {
-          console.log(data);
+          // console.log(data);
           const userInfo = {
             displayName: name,
             email: email.toLowerCase(),
@@ -84,7 +84,7 @@ const Register = () => {
 
       const result = await signInWithGoogle();
       const user = result.user;
-      console.log(user);
+      // console.log(user);
 
       const userInfo = {
         displayName: user.displayName,
@@ -114,7 +114,8 @@ const Register = () => {
       setLoading(false);
     }
   };
-
+ 
+  if(loading)return <LoadingSpinner></LoadingSpinner>
   return (
     <div className="max-w-[80%] mx-auto">
       <Link to="/">
@@ -225,7 +226,7 @@ const Register = () => {
                 )}
 
                 {/*Confirm Password field */}
-                {/* <label className="label">Confirm Password</label>
+                <label className="label">Confirm Password</label>
                 <div>
                   <input
                     type={confirmPasswordSeen ? "password" : "text"}
@@ -257,7 +258,7 @@ const Register = () => {
                   <p className="text-red-500 text-sm">
                     {errors.confirmPassword.message}
                   </p>
-                )} */}
+                )}
 
                 <button className="btn btn-neutral mt-4 p-2">
                   {loading ? <LoadingSpinner></LoadingSpinner> : "SUBMIT"}

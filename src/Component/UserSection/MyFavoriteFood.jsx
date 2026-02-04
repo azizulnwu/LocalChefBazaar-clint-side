@@ -3,15 +3,16 @@ import useAuth from "../../Hook/useAuth";
 import useAxios from "../../Hook/useAxiosInstant";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const MyFavoriteFood = () => {
   const { user, isLoading } = useAuth();
   const axiosInstance = useAxios();
-
+  const axiosSecure = useAxiosSecure()
   const { data: userFavoriteFood = [], refetch } = useQuery({
     queryKey: ["userFavoriteFood", user?.email],
     queryFn: async () => {
-      const res = await axiosInstance.get(
+      const res = await axiosSecure.get(
         `/userFavoriteFood?email=${user?.email}`,
       );
       return res.data;
@@ -33,7 +34,7 @@ const MyFavoriteFood = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosInstance.post("/userFavoriteFood/delete", deleteInfo).then(() => {
+        axiosSecure.post("/userFavoriteFood/delete", deleteInfo).then(() => {
           Swal.fire({
             position: "top-end",
             icon: "success",

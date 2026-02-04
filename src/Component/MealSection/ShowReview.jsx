@@ -8,16 +8,18 @@ import Swal from "sweetalert2";
 import UpdateReview from "./UpdateReview";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const ShowReview = () => {
   const { user, isLoading } = useAuth();
   const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure ()
   const modalRef = useRef();
 
   const { data: userPersonalReview = [], refetch } = useQuery({
     queryKey: ["userPersonalReview", user],
     queryFn: async () => {
-      const res = await axiosInstance.get(
+      const res = await axiosSecure.get(
         `/userPersonalReview?name=${user.displayName}`,
       );
       return res.data;
@@ -46,7 +48,7 @@ const ShowReview = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosInstance.post("/userReview/delete", deleteInfo).then(() => {
+        axiosSecure.post("/userReview/delete", deleteInfo).then(() => {
           Swal.fire({
             position: "top-end",
             icon: "success",
