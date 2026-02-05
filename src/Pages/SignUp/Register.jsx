@@ -13,6 +13,7 @@ import { useState } from "react";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import useAxios from "../../Hook/useAxiosInstant";
+import PageTitle from "../PageTitle";
 const Register = () => {
   const navigate = useNavigate();
   const axiosInstance = useAxios();
@@ -118,6 +119,7 @@ const Register = () => {
   if(loading)return <LoadingSpinner></LoadingSpinner>
   return (
     <div className="max-w-[80%] mx-auto">
+         <PageTitle title="LocalChefBazaar | Register"/>
       <Link to="/">
         <BrandLogo></BrandLogo>
       </Link>

@@ -8,6 +8,7 @@ import LoadingSpinner from "../Shared/LoadingSpinner";
 import { ToastContainer } from "react-toastify";
 import ChefMealUpdate from "./ChefMealUpdate";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const ChefAllMeals = () => {
   const { user } = useAuth();
@@ -88,7 +89,7 @@ const ChefAllMeals = () => {
 
   return (
     <div className="max-w-[98%] mx-auto p-4">
-       
+       <PageTitle title="Dashboard | My All Meals"/>
       <div className=" grid grid-cols-1 md:grid-cols-1 gap-2 bg-slate-300 p-4 mb-4 rounded-br-lg rounded-bl-lg">
        
         {chefALLMeal.map((data) => 

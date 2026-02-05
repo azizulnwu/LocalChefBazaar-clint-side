@@ -4,6 +4,7 @@ import useAxios from "../../Hook/useAxiosInstant";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const MyFavoriteFood = () => {
   const { user, isLoading } = useAuth();
@@ -52,6 +53,7 @@ const MyFavoriteFood = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <div className="p-4 mt-2">
+      <PageTitle title="Dashboard | My Favorite Food"/>
       <div className="card bg-base-100 max-w-[97%] mx-auto -mt-9">
         <div className="card-body">
           <h2 className="card-title">My Favorite Food List</h2>

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { Link } from "react-router";
 import useAuth from "../../Hook/useAuth";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 const CreateMeal = () => {
   const axiosInstance = useAxios();
   const { user } = useAuth();
@@ -91,6 +92,7 @@ const CreateMeal = () => {
 
   return (
     <div className="max-w-[80%] mx-auto">
+      <PageTitle title="Dashboard | Create Meal"/>
       <div className="hero bg-base-200 min-h-screen p-4 mt-2">
         <div className="card bg-base-100  md:w-[50%] w-full shrink-0 shadow-2xl">
           <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">

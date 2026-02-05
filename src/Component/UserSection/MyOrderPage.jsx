@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { useSearchParams } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 const MyOrderPage = () => {
   const { user } = useAuth();
   const axiosInstance = useAxios();
@@ -69,6 +70,7 @@ const MyOrderPage = () => {
 
   return (
     <div className="max-w-[98%] mx-auto p-4">
+      <PageTitle title="Dashboard | My Order Page"/>
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-2 bg-slate-400 p-4 mb-4 rounded-br-lg rounded-bl-lg">
         {myOrder.map((data) => (
           <div key={data._id} className="bg-slate-300 w-full">

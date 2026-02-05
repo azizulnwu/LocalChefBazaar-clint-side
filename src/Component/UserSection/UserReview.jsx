@@ -102,6 +102,7 @@ const UserReview = () => {
   };
   return (
     <div className="md:max-w-[80%] mx-auto">
+     
       <Link to="/">
         <BrandLogo></BrandLogo>
       </Link>

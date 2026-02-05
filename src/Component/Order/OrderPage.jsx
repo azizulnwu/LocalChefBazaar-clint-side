@@ -9,6 +9,7 @@ import { Link, useNavigate, useParams } from "react-router";
 import ImageUpload from "../../Utility/Image";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const OrderPage = () => {
   const axiosInstance = useAxios();
@@ -117,6 +118,7 @@ const OrderPage = () => {
 
   return (
     <div className="md:max-w-[80%] mx-auto">
+      <PageTitle title="Home | Order Page"/>
       <Link to="/">
         <BrandLogo></BrandLogo>
       </Link>

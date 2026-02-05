@@ -3,10 +3,12 @@ import { Link } from "react-router";
 import BrandLogo from "../Component/Shared/Logo/BrandLogo";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import PageTitle from "./PageTitle";
 
 const SpecialOffer = () => {
   return (
     <div className="max-w-[80%] mx-auto">
+      <PageTitle title="LocalChefBazaar | Special Offer"/>
       <Link to="/">
         <BrandLogo></BrandLogo>
       </Link>

@@ -4,6 +4,7 @@ import useAxios from "../../Hook/useAxiosInstant";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../Hook/useAuth";
+import PageTitle from "../../Pages/PageTitle";
 
 const AllMeals = () => {
   const { isLoading } = useAuth();
@@ -32,6 +33,7 @@ const AllMeals = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <div className="w-full md:max-w-[90%] mx-auto">
+     <PageTitle title="LocalChefBazaar | ALL Meals"/>
       <div className="text-center font-bold text-2xl bg-sky-200 p-4 rounded-tr-lg rounded-tl-lg flex justify-between p-4">
         <h1>All Meals Section</h1>
         {/* change popover-1 and --anchor-1 names. Use unique names for each dropdown */}

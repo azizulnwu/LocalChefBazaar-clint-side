@@ -9,6 +9,7 @@ import useAuth from "../../Hook/useAuth";
 import BrandLogo from "../../Component/Shared/Logo/BrandLogo";
 import LoadingSpinner from "../../Component/Shared/LoadingSpinner";
 import useAxios from "../../Hook/useAxiosInstant";
+import PageTitle from "../PageTitle";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -83,6 +84,7 @@ const Login = () => {
 
   return (
     <div className="max-w-[80%] mx-auto">
+      <PageTitle title="LocalChefBazaar | Login"/>
       <Link to="/">
         <BrandLogo></BrandLogo>
       </Link>

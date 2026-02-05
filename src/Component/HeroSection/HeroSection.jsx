@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import useAuth from "../../Hook/useAuth";
 import useAxios from "../../Hook/useAxiosInstant";
+import PageTitle from "../../Pages/PageTitle";
 
 const HeroSection = () => {
    const { isLoading } = useAuth();
@@ -21,7 +22,7 @@ const HeroSection = () => {
 
   return (
     <div className="max-w-[90%] mx-auto">
-     
+     <PageTitle title="Home | LocalChefBazaar"/>
       <div className="flex gap-8 overflow-hidden -mt-18 mb-10 rounded bg-amber-200">
         {allMealsImageLoad.map((data, index) => (
           <motion.img

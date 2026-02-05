@@ -12,6 +12,7 @@ import { MdManageAccounts } from "react-icons/md";
 import { RiOrderPlayLine } from "react-icons/ri";
 import { GoListUnordered } from "react-icons/go";
 import useAxiosSecure from "../Hook/useAxiosSecure";
+import PageTitle from "../Pages/PageTitle";
 const DashboardLayout = () => {
  
   const { user, logOut, setLoading } = useAuth();
@@ -29,6 +30,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="bg-slate-100">
+      <PageTitle title="Dashboard | My Profile"/>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">

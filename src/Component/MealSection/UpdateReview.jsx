@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import BrandLogo from "../Shared/Logo/BrandLogo";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const UpdateReview = ({ id,closeModal}) => {
   const axiosInstance = useAxios();
@@ -54,6 +55,7 @@ const UpdateReview = ({ id,closeModal}) => {
 
   return (
     <div className="">
+       {/* <PageTitle title="Dashboard | Update Review"/> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset className="fieldset">
           {/* Rating field */}

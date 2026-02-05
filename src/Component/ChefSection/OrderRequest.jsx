@@ -6,6 +6,7 @@ import LoadingSpinner from "../Shared/LoadingSpinner";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const OrderRequest = () => {
   const { user } = useAuth();
@@ -65,6 +66,7 @@ const OrderRequest = () => {
 
   return (
     <div className="md:max-w-[98%] mx-auto p-4">
+      <PageTitle title="Dashboard | Order Request"/>
       <div className=" grid grid-cols-1 md:grid-cols-2 gap-2 bg-slate-400 p-4 mb-4 rounded-br-lg rounded-bl-lg">
         {orderedFood.map((data) => (
           <div key={data._id} className="bg-slate-300 w-full">

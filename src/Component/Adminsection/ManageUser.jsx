@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import { toast, ToastContainer } from "react-toastify";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const ManageUser = () => {
   const { user } = useAuth() || [];
@@ -40,6 +41,7 @@ const ManageUser = () => {
 
   return (
     <div className=" md:max-w-[90%] mx-auto p-10 mt-8 bg-slate-50">
+       <PageTitle title="Dashboard | Manage User"/>
       <div className="mt-4">
         {/* ================= DESKTOP TABLE ================= */}
         <div className="hidden md:block overflow-x-auto">

@@ -5,6 +5,7 @@ import useAxios from "../../Hook/useAxiosInstant";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const MealReview = ({ id }) => {
   const { user, isLoading } = useAuth();
@@ -32,7 +33,10 @@ const MealReview = ({ id }) => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
+    
     <div className="p-4">
+     
+       <PageTitle title="LocalChefBazar | Meal Details"/>
       <div className="card bg-base-100 max-w-[97%] mx-auto -mt-9">
         <div className="card-body">
           <h2 className="card-title">Meal Review section</h2>

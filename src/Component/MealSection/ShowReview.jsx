@@ -9,6 +9,7 @@ import UpdateReview from "./UpdateReview";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const ShowReview = () => {
   const { user, isLoading } = useAuth();
@@ -66,6 +67,7 @@ const ShowReview = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <div className="p-4 mt-2">
+        <PageTitle title="Dashboard | My All Review"/>
       <div className="card bg-base-100 max-w-[97%] mx-auto -mt-9">
         <div className="card-body">
           <h2 className="card-title">My All Review</h2>

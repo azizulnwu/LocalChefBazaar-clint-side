@@ -9,6 +9,7 @@ import LoadingSpinner from "../Shared/LoadingSpinner";
 import BrandLogo from "../Shared/Logo/BrandLogo";
 import MealReview from "./MealReview";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const MealDetails = () => {
   const { user } = useAuth();
@@ -111,6 +112,7 @@ const MealDetails = () => {
 
   return (
     <div className="max-w-[98%] mx-auto p-4">
+        
       <Link to="/">
         <BrandLogo></BrandLogo>
       </Link>

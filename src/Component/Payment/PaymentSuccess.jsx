@@ -5,6 +5,7 @@ import useAuth from "../../Hook/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const PaymentSuccess = () => {
   const axiosInstance = useAxios();
@@ -53,6 +54,7 @@ const PaymentSuccess = () => {
 
   return (
     <div className="p-4 mt-2">
+       <PageTitle title="Dashboard | Payment Success"/>
       <div className="card bg-base-100 max-w-[97%] mx-auto -mt-9">
         <div className="card-body">
           <h2 className="card-title">Payment Success</h2>

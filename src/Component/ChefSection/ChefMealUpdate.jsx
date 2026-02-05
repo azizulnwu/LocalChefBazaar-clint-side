@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import ImageUpload from "../../Utility/Image";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 
 const ChefMealUpdate = () => {
   // const axiosInstance = useAxios();
@@ -93,6 +94,7 @@ const ChefMealUpdate = () => {
 
   return (
     <div className="max-w-[100%] mx-auto">
+      <PageTitle title="Dashboard | Update Meal"/>
         <div className="hero bg-base-200 min-h-screen p-4 mt-2">
         <div className="card bg-base-100  md:w-[50%] w-full shrink-0 shadow-2xl">
        <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">

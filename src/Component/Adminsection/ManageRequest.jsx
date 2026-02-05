@@ -7,6 +7,7 @@ import LoadingSpinner from "../Shared/LoadingSpinner";
 import { Link } from "react-router";
 import BrandLogo from "../Shared/Logo/BrandLogo";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
+import PageTitle from "../../Pages/PageTitle";
 const ManageRequest = () => {
   const { user } = useAuth() || [];
   const axiosInstance = useAxios();
@@ -71,6 +72,7 @@ const ManageRequest = () => {
 
   return (
     <div className=" md:max-w-[90%] mx-auto p-10 mt-8 bg-slate-50">
+       <PageTitle title="Dashboard | Manage Request"/>
       <div className="mt-10">
         {/* ================= DESKTOP TABLE ================= */}
         <div className="hidden md:block overflow-x-auto">
