@@ -98,6 +98,7 @@ const UserReview = () => {
       // console.log(err);
       toast.error(err?.message);
     }
+    refetch()
     reset();
   };
   return (

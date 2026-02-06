@@ -216,7 +216,7 @@ const DashboardLayout = () => {
              }
                 {/* List item */}
               {
-                 currentUserProfile?.role === "user" &&   <li>
+                 currentUserProfile?.role !== "chef" &&   <li>
                   <Link
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip=" My Order Page"

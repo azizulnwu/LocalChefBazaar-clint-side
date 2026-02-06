@@ -26,7 +26,7 @@ const BeaChefAdmin = () => {
       const userInfo = {
         name,
         email: email.toLowerCase(),
-        role,
+        role:role.toLowerCase(),
       };
 
       await axiosSecure.post("/chefOrAdmin", userInfo).then((res) => {
@@ -41,7 +41,7 @@ const BeaChefAdmin = () => {
           timer: 1500,
         });
         setLoading(false);
-        navigate("dashboard/myProfile");
+        navigate("/dashboard/myProfile");
       });
     } catch (err) {
       // console.log(err);

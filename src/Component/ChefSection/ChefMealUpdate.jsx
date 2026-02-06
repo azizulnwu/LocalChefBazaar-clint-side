@@ -53,9 +53,13 @@ const ChefMealUpdate = () => {
       chefExperience,
       chefEmail,
     } = data;
-    const imageFile = foodImage[0];
 
-    const foodImageUrl = await ImageUpload(imageFile);
+    let foodImageUrl = chefMeal[0]?.foodImage;
+
+    if (foodImage && foodImage.length > 0) {
+      foodImageUrl = await ImageUpload(foodImage[0]);
+    }
+
     try {
       const mealUpdateInfo = {
         id,
@@ -81,8 +85,7 @@ const ChefMealUpdate = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        reset();
-        refetch();
+
         navigate("/dashboard/myAllMeals");
       });
     } catch (err) {
@@ -93,158 +96,171 @@ const ChefMealUpdate = () => {
   };
 
   return (
-    <div className="max-w-[100%] mx-auto">
-      <PageTitle title="Dashboard | Update Meal"/>
-        <div className="hero bg-base-200 min-h-screen p-4 mt-2">
+    <div className="max-w-full mx-auto">
+      <PageTitle title="Dashboard | Update Meal" />
+      <div className="hero bg-base-200 min-h-screen p-4 mt-2">
         <div className="card bg-base-100  md:w-[50%] w-full shrink-0 shadow-2xl">
-       <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">
+          <h1 className="text-center font-bold text-2xl bg-sky-100 p-3 rounded-tr-lg rounded-tl-lg">
             Please Update Meal
           </h1>
-           <div className="card-body">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className="fieldset">
-          {/* Food Name field */}
-          <label className="label">Food Name</label>
-          <input
-            type="text"
-            className="input w-full"
-            placeholder="Food Name"
-            o //l'''],
-            defaultValue={chefMeal[0]?.foodName}
-            {...register("foodName")}
-          />
-          {errors.foodName && (
-            <p className="text-red-500 text-sm">{errors.foodName.message}</p>
-          )}
+          <div className="card-body">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <fieldset className="fieldset">
+                {/* Food Name field */}
+                <label className="label">Food Name</label>
+                <input
+                  type="text"
+                  className="input w-full"
+                  placeholder="Food Name"
+                  defaultValue={chefMeal[0]?.foodName}
+                  {...register("foodName")}
+                />
+                {errors.foodName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.foodName.message}
+                  </p>
+                )}
 
-          {/* Chef Name */}
-          <label className="label">Chef Name</label>
-          <input
-            type="text"
-            defaultValue={user?.displayName}
-            className="input w-full"
-            placeholder="Chef Name"
-            {...register("chefName")}
-          />
-          {errors.chefName && (
-            <p className="text-red-500 text-sm">{errors.chefName.message}</p>
-          )}
-          {/* foodImage field */}
-          <label className="label">FoodImage</label>
-          <input
-            type="file"
-            // defaultValue={chefMeal[0]?.foodImage}
-            className="file-input w-full"
-            {...register("foodImage")}
-          />
-          {errors.foodImage && (
-            <p className="text-red-500 text-sm">{errors.foodImage.message}</p>
-          )}
+                {/* Chef Name */}
+                <label className="label">Chef Name</label>
+                <input
+                  type="text"
+                  defaultValue={user?.displayName}
+                  className="input w-full"
+                  placeholder="Chef Name"
+                  {...register("chefName")}
+                />
+                {errors.chefName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.chefName.message}
+                  </p>
+                )}
+                {/* foodImage field */}
+                <label className="label">FoodImage</label>
+                <input
+                  type="file"
+                  // defaultValue={chefMeal[0]?.foodImage}
+                  className="file-input w-full"
+                  {...register("foodImage")}
+                />
+                {errors.foodImage && (
+                  <p className="text-red-500 text-sm">
+                    {errors.foodImage.message}
+                  </p>
+                )}
 
-          {/* Price field */}
-          <label className="label">Price</label>
-          <input
-            type="number"
-            defaultValue={chefMeal[0]?.price}
-            className="input w-full"
-            placeholder="Price"
-            {...register("price")}
-          />
-          {errors.price && (
-            <p className="text-red-500 text-sm">{errors.price.message}</p>
-          )}
+                {/* Price field */}
+                <label className="label">Price</label>
+                <input
+                  type="number"
+                  defaultValue={chefMeal[0]?.price}
+                  className="input w-full"
+                  placeholder="Price"
+                  {...register("price")}
+                />
+                {errors.price && (
+                  <p className="text-red-500 text-sm">{errors.price.message}</p>
+                )}
 
-          {/* Rating field */}
-          <label className="label">Rating</label>
-          <input
-            type="number"
-            defaultValue={chefMeal[0]?.rating}
-            className="input w-full"
-            placeholder="Rating"
-            {...register("rating")}
-          />
-          {errors.rating && (
-            <p className="text-red-500 text-sm">{errors.rating.message}</p>
-          )}
+                {/* Rating field */}
+                <label className="label">Rating</label>
+                <input
+                  type="number"
+                  defaultValue={chefMeal[0]?.rating}
+                  className="input w-full"
+                  placeholder="Rating"
+                  {...register("rating")}
+                />
+                {errors.rating && (
+                  <p className="text-red-500 text-sm">
+                    {errors.rating.message}
+                  </p>
+                )}
 
-          {/* Ingredients field */}
-          <label className="label">Ingredients</label>
-          <input
-            type="text"
-            defaultValue={chefMeal[0]?.ingredients}
-            className="input w-full"
-            placeholder="Ingredients"
-            {...register("ingredients")}
-          />
-          {errors.ingredients && (
-            <p className="text-red-500 text-sm">{errors.ingredients.message}</p>
-          )}
-          {/* EstimatedDeliveryTime field */}
-          <label className="label">EstimatedDeliveryTime </label>
-          <input
-            type="text"
-            defaultValue={chefMeal[0]?.estimatedDeliveryTime}
-            className="input w-full"
-            placeholder="EstimatedDeliveryTime  time hrs"
-            {...register("estimatedDeliveryTime")}
-          />
-          {errors.estimatedDeliveryTime && (
-            <p className="text-red-500 text-sm">
-              {errors.estimatedDeliveryTime.message}
-            </p>
-          )}
+                {/* Ingredients field */}
+                <label className="label">Ingredients</label>
+                <input
+                  type="text"
+                  defaultValue={chefMeal[0]?.ingredients}
+                  className="input w-full"
+                  placeholder="Ingredients"
+                  {...register("ingredients")}
+                />
+                {errors.ingredients && (
+                  <p className="text-red-500 text-sm">
+                    {errors.ingredients.message}
+                  </p>
+                )}
+                {/* EstimatedDeliveryTime field */}
+                <label className="label">EstimatedDeliveryTime </label>
+                <input
+                  type="text"
+                  defaultValue={chefMeal[0]?.estimatedDeliveryTime}
+                  className="input w-full"
+                  placeholder="EstimatedDeliveryTime  time hrs"
+                  {...register("estimatedDeliveryTime")}
+                />
+                {errors.estimatedDeliveryTime && (
+                  <p className="text-red-500 text-sm">
+                    {errors.estimatedDeliveryTime.message}
+                  </p>
+                )}
 
-          {/* ChefExperience field */}
-          <label className="label">ChefExperience</label>
-          <input
-            type="text"
-            defaultValue={chefMeal[0]?.chefExperience}
-            className="input w-full"
-            placeholder="ChefExperience"
-            {...register("chefExperience")}
-          />
-          {errors.chefExperience && (
-            <p className="text-red-500 text-sm">
-              {errors.chefExperience.message}
-            </p>
-          )}
-          {/* ChefId field */}
-          <label className="label">ChefId</label>
-          <input
-            type="text"
-            defaultValue={chefMeal[0]?.chefId}
-            className="input w-full"
-            placeholder="ChefId"
-            {...register("chefId")}
-          />
-          {errors.chefId && (
-            <p className="text-red-500 text-sm">{errors.chefId.message}</p>
-          )}
+                {/* ChefExperience field */}
+                <label className="label">ChefExperience</label>
+                <input
+                  type="text"
+                  defaultValue={chefMeal[0]?.chefExperience}
+                  className="input w-full"
+                  placeholder="ChefExperience"
+                  {...register("chefExperience")}
+                />
+                {errors.chefExperience && (
+                  <p className="text-red-500 text-sm">
+                    {errors.chefExperience.message}
+                  </p>
+                )}
+                {/* ChefId field */}
+                <label className="label">ChefId</label>
+                <input
+                  type="text"
+                  defaultValue={chefMeal[0]?.chefId}
+                  className="input w-full"
+                  placeholder="ChefId"
+                  {...register("chefId")}
+                />
+                {errors.chefId && (
+                  <p className="text-red-500 text-sm">
+                    {errors.chefId.message}
+                  </p>
+                )}
 
-          {/*chefEmailfield */}
-          <label className="label">ChefEmail</label>
-          <input
-            type="email"
-            className="input w-full"
-            defaultValue={user?.email}
-            placeholder="ChefEmail"
-            {...register("chefEmail")}
-          />
-          {errors.chefEmail && (
-            <p className="text-red-500 text-sm">{errors.chefEmail.message}</p>
-          )}
+                {/*chefEmailfield */}
+                <label className="label">ChefEmail</label>
+                <input
+                  type="email"
+                  className="input w-full"
+                  defaultValue={user?.email}
+                  placeholder="ChefEmail"
+                  {...register("chefEmail")}
+                />
+                {errors.chefEmail && (
+                  <p className="text-red-500 text-sm">
+                    {errors.chefEmail.message}
+                  </p>
+                )}
 
-          {userStatus?.userStatus !== "fraud" && (
-            <button className="btn btn-neutral mt-4 p-2">SUBMIT</button>
-          )}
-          {/* <button className="btn btn-neutral mt-4 p-2">
+                {userStatus?.userStatus !== "fraud" && (
+                  <button className="btn btn-neutral mt-4 p-2">SUBMIT</button>
+                )}
+                {/* <button className="btn btn-neutral mt-4 p-2">
                   {loading ? <LoadingSpinner></LoadingSpinner> : "SUBMIT"}
                 </button> */}
-        </fieldset>
-      </form>
-       </div>
-       </div>
-       </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

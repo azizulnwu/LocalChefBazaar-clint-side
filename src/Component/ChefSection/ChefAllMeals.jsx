@@ -102,10 +102,10 @@ const ChefAllMeals = () => {
      "
               >
                 <figure className="">
-                  <img src={data.foodImage} alt="Movie" className="md:w-100 md:h-110 " />
+                  <img src={data.foodImage} alt="Movie" className="md:w-100 md:h-120 " />
                 </figure>
 
-                <div className="card-body bg-base-100  flex flex-col items-start md:h-110">
+                <div className="card-body bg-base-100  flex flex-col items-start md:h-120">
                   <h2 className="card-title mt-2 text-2xl">
                     {" "}
                     Food Name: {data.foodName}
