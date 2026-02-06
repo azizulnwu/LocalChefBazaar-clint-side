@@ -1,5 +1,5 @@
 Project Name:Local Chef Bazaar;
-Live URL: local-chef-bazaar-server-side-mlonvqgj3.vercel.appJ
+Live URL:https://localchefbazaar-clint-side.web.app
 Purpose : Online Food Service and business;
 Feature: Food order and buy with nice environment;
 
